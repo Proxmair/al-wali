@@ -36,10 +36,10 @@ export default function Features() {
     <section className="py-16 md:py-24 px-4 bg-muted/30">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">
             Why Choose AL Wali
           </h2>
-          <p className="text-lg text-foreground/70">
+          <p className="text-lg font-bold text-foreground/70">
             Experience luxury with confidence and assurance
           </p>
         </div>

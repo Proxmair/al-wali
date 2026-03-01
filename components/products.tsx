@@ -89,9 +89,25 @@ const allProducts: Product[] = [
     rating: 4.6,
     reviews: 198,
   },
+  {
+    id: 9,
+    name: 'Lavender Dream',
+    category: 'Floral',
+    price: 2599,
+    image: 'https://images.unsplash.com/photo-1623252149847-2dd719c2c89e?w=500&h=600&fit=crop',
+    rating: 4.6,
+    reviews: 198,
+  },
+  {
+    id: 10,
+    name: 'Lavender Dream',
+    category: 'Floral',
+    price: 2599,
+    image: 'https://images.unsplash.com/photo-1623252149847-2dd719c2c89e?w=500&h=600&fit=crop',
+    rating: 4.6,
+    reviews: 198,
+  },
 ]
-
-const categories = ['All', 'Premium', 'Floral', 'Woody', 'Fresh', 'Oriental']
 
 export default function Products() {
   const [selectedCategory, setSelectedCategory] = useState('All')
@@ -104,34 +120,17 @@ export default function Products() {
     <section className="py-16 md:py-24 px-4 bg-background">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+          <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">
             Our Collection
           </h2>
-          <p className="text-lg text-foreground/70 mb-8">
+          <p className="text-lg text-foreground/70 mb-8 font-bold">
             Explore our curated selection of premium fragrances
           </p>
-
-          {/* Filter Buttons */}
-          <div className="flex flex-wrap gap-3 justify-center">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-5 py-2 rounded-full font-medium transition-all text-sm ${
-                  selectedCategory === category
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-muted text-foreground hover:bg-muted/80'
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div>
         </div>
 
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredProducts.map((product) => (
+          {allProducts.map((product) => (
             <Card
               key={product.id}
               className="overflow-hidden hover:shadow-lg transition-shadow border border-border"

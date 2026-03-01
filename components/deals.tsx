@@ -54,6 +54,7 @@ export default function Deals() {
             <Card
               key={deal.id}
               className={`relative overflow-hidden rounded-none border-0 shadow-lg hover:shadow-xl transition-shadow bg-[url("/deal${index + 1}.jpg")] bg-center bg-cover bg-no-repeat`}
+              style={{ backgroundImage: `url(/deal${index + 1}.jpg)` }}
             >
               {/* Badge */}
               <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-foreground px-4 py-2 rounded-full flex items-center gap-2">

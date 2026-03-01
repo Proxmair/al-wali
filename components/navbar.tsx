@@ -10,8 +10,8 @@ export default function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-background border-b border-border shadow-sm">
-      <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-40">
+      <div className="mx-auto px-1 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center sm:h-40 h-24">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Image
@@ -19,7 +19,7 @@ export default function Navbar() {
               alt="AL Wali"
               width={40}
               height={40}
-              className="h-32 w-auto"
+              className="md:h-32 h-18 w-auto"
             />
           </div>
 

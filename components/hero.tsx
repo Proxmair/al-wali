@@ -4,21 +4,20 @@ import { Button } from '@/components/ui/button'
 
 export default function Hero() {
   return (
-    <section className="relative h-screen md:h-96 overflow-hidden bg-gradient-to-r from-secondary via-secondary to-secondary/90 flex items-center justify-center">
-      {/* Decorative Elements */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -mr-48 -mt-48" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl -ml-48 -mb-48" />
-
+    <section className='relative h-250 overflow-hidden bg-[url("/slider-1.jpeg")] bg-cover bg-no-repeat bg-center flex items-center justify-center'>
       {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-3xl">
-        <h1 className="text-4xl md:text-6xl text-foreground mb-4 text-balance">
-          Andak Apka Mehak Humari
+      <div className="relative z-10 xl:left-[20vw] flex flex-col justify-center xl:items-start px-4 max-w-3xl mr-3 bg-amber-100 rounded-2xl p-4">
+        <h1 className="text-6xl xl:text-8xl font-bold text-orange-900 mb-4 text-balance text-center xl:text-start">
+          Andaz Apka Mehak Hamari
         </h1>
-        <p className="text-lg md:text-xl text-foreground/80 mb-8 text-balance">
+        <p className="text-md xl:text-lg text-foreground/80 mb-8 text-balance font-bold text-center xl:text-start">
           Discover the essence of luxury with AL Wali&apos;s premium fragrance collection
         </p>
-        
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <p className="text-md xl:text-lg text-white mb-8 text-balance bg-amber-900 p-3 xl:p-4 mx-auto rounded-2xl">
+          Ramazan Special offer Buy 3 in pay of 2
+        </p>
+
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mx-auto">
           <Button 
             size="lg"
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"

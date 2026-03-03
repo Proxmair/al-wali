@@ -1,7 +1,7 @@
 import React from 'react'
 
 const TopNavbar = () => {
-    const scollTextStyle = 'text-white lg:text-lg md:text-sm sm:text-[10px] xs:text-[7px] text-[5px]'
+    const scollTextStyle = 'text-white lg:text-lg md:text-sm sm:text-[10px] xs:text-[7px] text-[6.3px]'
   return (
     <div className='w-full bg-black md:h-12 h-8  overflow-hidden flex items-center justify-evenly text-sm'>
       <div className='flex animate-scroll w-[200vw]'>

@@ -1,124 +1,132 @@
 'use client'
 
-import { useState } from 'react'
-import { Card } from '@/components/ui/card'
+import Image, { type StaticImageData } from 'next/image'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Heart, ShoppingCart } from 'lucide-react'
-import Image from 'next/image'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+import { ShoppingCart } from 'lucide-react'
 
 interface Product {
   id: number
   name: string
   category: string
   price: number
-  image: string
+  discountedPrice: number
+  images: string[]
   rating: number
-  reviews: number
 }
 
-const allProducts: Product[] = [
+// Helper to generate image paths dynamically
+const getProductImages = (productIndex: number, totalImages: number) =>
+  Array.from({ length: totalImages }).map(
+    (_, i) => `/products/product${productIndex + 1}/image${i + 1}.jpg`
+  )
+
+// Sample product data — values differ, but images are generated dynamically
+const products: Product[] = [
   {
     id: 1,
-    name: 'Oud Royal',
-    category: 'Premium',
-    price: 4999,
-    image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500&h=600&fit=crop',
-    rating: 4.8,
-    reviews: 342,
+    name: 'White Oud',
+    category: 'Premium Attar | 12ml',
+    price: 2300,
+    discountedPrice: 1730,
+    images: getProductImages(0, 3),
+    rating: 5,
   },
   {
     id: 2,
-    name: 'Rose Essence',
-    category: 'Floral',
-    price: 2999,
-    image: 'https://images.unsplash.com/photo-1564654309505-4a9cc0b27f38?w=500&h=600&fit=crop',
-    rating: 4.6,
-    reviews: 218,
+    name: 'Rose',
+    category: 'Premium Attar | 15ml',
+    price: 1500,
+    discountedPrice: 1130,
+    images: getProductImages(1, 3),
+    rating: 4,
   },
   {
     id: 3,
-    name: 'Amber Nights',
-    category: 'Woody',
-    price: 3499,
-    image: 'https://images.unsplash.com/photo-1575883306e88c9c8f0c22b2f2f2f0a?w=500&h=600&fit=crop',
-    rating: 4.7,
-    reviews: 156,
+    name: 'Aqua Di Gio',
+    category: 'Luxury Attar | 12ml',
+    price: 1700,
+    discountedPrice: 1280,
+    images: getProductImages(2, 3),
+    rating: 5,
   },
   {
-    id: 4,
-    name: 'Fresh Citrus',
-    category: 'Fresh',
-    price: 2499,
-    image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=500&h=600&fit=crop',
-    rating: 4.5,
-    reviews: 289,
+    id: 1,
+    name: 'Hugo Boss',
+    category: 'Premium Attar | 12ml',
+    price: 2300,
+    discountedPrice: 1730,
+    images: getProductImages(3, 3),
+    rating: 5,
   },
   {
-    id: 5,
-    name: 'Midnight Bliss',
-    category: 'Oriental',
-    price: 3999,
-    image: 'https://images.unsplash.com/photo-1618405032710-dae8ee0fdc01?w=500&h=600&fit=crop',
-    rating: 4.9,
-    reviews: 401,
+    id: 2,
+    name: 'Dela Sabaya',
+    category: 'Premium Attar | 15ml',
+    price: 1950,
+    discountedPrice: 1450,
+    images: getProductImages(4, 3),
+    rating: 4,
   },
   {
-    id: 6,
-    name: 'Ocean Breeze',
-    category: 'Fresh',
-    price: 2799,
-    image: 'https://images.unsplash.com/photo-1593642632823-8f0d414cd108?w=500&h=600&fit=crop',
-    rating: 4.4,
-    reviews: 167,
+    id: 3,
+    name: 'Chocolate',
+    category: 'Luxury Attar | 12ml',
+    price: 2000,
+    discountedPrice: 1500,
+    images: getProductImages(5, 3),
+    rating: 5,
   },
   {
-    id: 7,
-    name: 'Spice Trails',
-    category: 'Woody',
-    price: 3299,
-    image: 'https://images.unsplash.com/photo-1612528443702-f6741f3a6f1f?w=500&h=600&fit=crop',
-    rating: 4.7,
-    reviews: 234,
+    id: 1,
+    name: 'Gucci Rush',
+    category: 'Premium Attar | 12ml',
+    price: 1700,
+    discountedPrice: 1280,
+    images: getProductImages(6, 3),
+    rating: 5,
   },
   {
-    id: 8,
-    name: 'Lavender Dream',
-    category: 'Floral',
-    price: 2599,
-    image: 'https://images.unsplash.com/photo-1623252149847-2dd719c2c89e?w=500&h=600&fit=crop',
-    rating: 4.6,
-    reviews: 198,
+    id: 2,
+    name: 'Mont Blanc Legend',
+    category: 'Premium Attar | 15ml',
+    price: 1750,
+    discountedPrice: 1300,
+    images: getProductImages(7, 3),
+    rating: 4,
   },
   {
-    id: 9,
-    name: 'Lavender Dream',
-    category: 'Floral',
-    price: 2599,
-    image: 'https://images.unsplash.com/photo-1623252149847-2dd719c2c89e?w=500&h=600&fit=crop',
-    rating: 4.6,
-    reviews: 198,
+    id: 3,
+    name: 'Royal Desire',
+    category: 'Luxury Attar | 12ml',
+    price: 1800,
+    discountedPrice: 1380,
+    images: getProductImages(8, 3),
+    rating: 5,
   },
   {
-    id: 10,
-    name: 'Lavender Dream',
-    category: 'Floral',
-    price: 2599,
-    image: 'https://images.unsplash.com/photo-1623252149847-2dd719c2c89e?w=500&h=600&fit=crop',
-    rating: 4.6,
-    reviews: 198,
+    id: 3,
+    name: 'Aseel',
+    category: 'Luxury Attar | 12ml',
+    price: 1750,
+    discountedPrice: 1300,
+    images: getProductImages(9, 3),
+    rating: 5,
   },
 ]
 
 export default function Products() {
-  const [selectedCategory, setSelectedCategory] = useState('All')
-
-  const filteredProducts = selectedCategory === 'All'
-    ? allProducts
-    : allProducts.filter(p => p.category === selectedCategory)
-
   return (
     <section className="py-16 md:py-24 px-4 bg-background">
       <div className="max-w-7xl mx-auto">
+        {/* Header */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">
             Our Collection
@@ -128,63 +136,79 @@ export default function Products() {
           </p>
         </div>
 
-        {/* Product Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {allProducts.map((product) => (
+          {products.map((product, productIndex) => (
             <Card
               key={product.id}
-              className="overflow-hidden hover:shadow-lg transition-shadow border border-border"
+              className="overflow-hidden hover:shadow-lg p-0 transition-shadow border border-border"
             >
-              {/* Image */}
-              <div className="relative h-64 overflow-hidden bg-muted group">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={300}
-                  height={400}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                />
-                <button className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:bg-white/90 transition-colors">
-                  <Heart className="w-5 h-5 text-foreground" />
+              {/* Image Carousel */}
+              <div className="relative">
+                <Carousel className="w-full">
+                  <CarouselContent>
+                    {product.images.map((img, index) => (
+                      <CarouselItem key={index}>
+                        <div className="relative h-64 w-full">
+                          <Image
+                            src={img}
+                            alt={`${product.name}-${index}`}
+                            fill
+                            className="object-cover"
+                            priority={index === 0}
+                          />
+                        </div>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+
+                  {product.images.length > 1 && (
+                    <>
+                      <CarouselPrevious className="left-2" />
+                      <CarouselNext className="right-2" />
+                    </>
+                  )}
+                </Carousel>
+
+                <button className="absolute top-3 right-3 z-10 p-2 bg-primary text-xs text-white rounded-full shadow-md hover:bg-amber-400 transition-colors">
+                  25% OFF
                 </button>
               </div>
 
               {/* Content */}
-              <div className="p-4">
+              <CardContent className="p-4">
                 <span className="text-xs font-semibold text-primary uppercase tracking-wide">
                   {product.category}
                 </span>
+
                 <h3 className="text-lg font-semibold text-foreground mt-2 mb-2">
                   {product.name}
                 </h3>
 
-                {/* Rating */}
                 <div className="flex items-center gap-1 mb-3">
                   <div className="flex text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
+                    {[...Array(product.rating)].map((_, i) => (
                       <span key={i}>★</span>
                     ))}
                   </div>
-                  <span className="text-xs text-muted-foreground ml-2">
-                    ({product.reviews})
+                </div>
+
+                <div className="mb-4">
+                  <span className="font-bold text-amber-800">
+                    <span className="text-xl">
+                      Rs {product.discountedPrice.toLocaleString()}
+                    </span>{' '}
+                    <span className="line-through">
+                      Rs {product.price.toLocaleString()}
+                    </span>
                   </span>
                 </div>
 
-                {/* Price */}
-                <div className="flex items-end gap-2 mb-4">
-                  <span className="text-2xl font-bold text-foreground">
-                    ₹{product.price.toLocaleString()}
-                  </span>
-                </div>
-
-                {/* Add to Cart Button */}
-                <Button
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground flex items-center justify-center gap-2"
-                >
+                <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground flex items-center justify-center gap-2">
                   <ShoppingCart className="w-4 h-4" />
                   Add to Cart
                 </Button>
-              </div>
+              </CardContent>
             </Card>
           ))}
         </div>

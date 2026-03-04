@@ -2,28 +2,24 @@
 
 import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react'
 import Image from 'next/image'
+import Logo from '@/public/main-logo.png'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-secondary text-white">
+    <footer className="bg-black text-white">
       {/* Main Footer */}
       <div className="px-4 py-16 md:py-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="mx-auto px-10">
+          <div className="flex">
             {/* Brand */}
-            <div className="space-y-4">
+            <div className="space-y-4 w-200 h-70">
               <Image
-                src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/icon-color-dark-mode-eKyFPIZV6zDeAdsYJiCcIRFxQSJp6O.png"
+                src={Logo}
                 alt="AL Wali"
-                width={40}
-                height={40}
-                className="h-12 w-auto"
+                className="h-full w-full"
               />
-              <p className="text-white/80 text-sm leading-relaxed">
-                Discover the essence of luxury with AL Wali&apos;s premium fragrance collection. Authentic, elegant, and unforgettable.
-              </p>
               {/* Social Links */}
               <div className="flex gap-4 pt-4">
                 <a href="#" className="p-2 hover:bg-white/10 rounded-lg transition-colors">

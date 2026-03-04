@@ -1,14 +1,18 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel'
+import { Star } from 'lucide-react'
 
 interface Testimonial {
   id: number
   name: string
   role: string
-  image: string
   rating: number
   text: string
 }
@@ -16,146 +20,89 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: 'Priya Sharma',
-    role: 'Fragrance Enthusiast',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop',
+    name: 'Ali A.',
+    role: 'Customer',
     rating: 5,
-    text: 'AL Wali offers the finest fragrances I\'ve ever experienced. The quality is exceptional and the deals are unbeatable!',
+    text: 'It was an excellent experience using that fragrance. Highly recommend.',
   },
   {
     id: 2,
-    name: 'Arjun Patel',
-    role: 'Regular Customer',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
+    name: 'Sofia K.',
+    role: 'Customer',
     rating: 5,
-    text: 'Fast delivery, authentic products, and amazing customer service. Highly recommended for anyone who loves perfumes.',
+    text: "It is amazing 😍 My partner suggested me that... And I'm in love with this. Whenever I used this I feel like he is with me ❤️",
   },
   {
     id: 3,
-    name: 'Neha Verma',
-    role: 'Beauty & Lifestyle Blogger',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop',
+    name: 'Muzamil A.',
+    role: 'Customer',
     rating: 5,
-    text: 'The variety of fragrances and the premium quality make AL Wali my go-to destination. Their customer care is exceptional.',
+    text: 'Alhamdulillah today received my parcel and Ma sha Allah fragrance is too good 🌸 Highly recommended!',
   },
   {
     id: 4,
-    name: 'Rohit Singh',
-    role: 'Professional',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop',
-    rating: 5,
-    text: 'I\'ve been ordering from AL Wali for 2 years now. Never disappointed with quality or service. Keep it up!',
+    name: 'Ahmed S.',
+    role: 'Customer',
+    rating: 4,
+    text: 'Lovely fragrance, and the delivery was fast!',
+  },
+  {
+    id: 5,
+    name: 'Ahmed S.',
+    role: 'Customer',
+    rating: 4,
+    text: 'Lovely fragrance, and the delivery was fast!',
   },
 ]
 
 export default function Testimonials() {
-  const [current, setCurrent] = useState(0)
-  const [autoPlay, setAutoPlay] = useState(true)
-
-  useEffect(() => {
-    if (!autoPlay) return
-
-    const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-
-    return () => clearInterval(timer)
-  }, [autoPlay])
-
-  const next = () => {
-    setCurrent((prev) => (prev + 1) % testimonials.length)
-    setAutoPlay(false)
-  }
-
-  const prev = () => {
-    setCurrent((prev) => (prev - 1 + testimonials.length) % testimonials.length)
-    setAutoPlay(false)
-  }
-
-  const testimonial = testimonials[current]
-
   return (
-    <section className="py-16 md:py-24 px-4 bg-muted/50">
-      <div className="max-w-3xl mx-auto">
+    <section className="py-16 md:py-24 bg-muted/50">
+      <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
-            What Our Customers Say
+          <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">
+            From Our Customers
           </h2>
-          <p className="text-lg text-foreground/70">
-            Real testimonials from our beloved customers
-          </p>
         </div>
 
-        {/* Testimonial Slider */}
-        <div className="bg-background rounded-lg p-8 md:p-12 border border-border shadow-lg">
-          <div className="text-center">
-            {/* Rating */}
-            <div className="flex justify-center gap-1 mb-4">
-              {[...Array(testimonial.rating)].map((_, i) => (
-                <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-              ))}
-            </div>
+        <Carousel className="w-full">
+          <CarouselContent className="space-x-4">
+            {testimonials.map((t) => (
+              <CarouselItem
+                key={t.id}
+                className="flex-1 w-full sm:min-w-[600px] min-w-[400px] bg-white p-6 rounded-lg shadow-md text-center"
+              >
+                {/* Rating */}
+                <div className="flex justify-center gap-1 mb-2">
+                  {[...Array(t.rating)].map((_, i) => (
+                    <Star
+                      key={i}
+                      className="w-5 h-5 text-yellow-400 fill-yellow-400"
+                    />
+                  ))}
+                </div>
 
-            {/* Quote */}
-            <p className="text-xl md:text-2xl text-foreground font-serif italic mb-6 text-balance">
-              "{testimonial.text}"
-            </p>
-
-            {/* Customer Info */}
-            <div className="flex flex-col items-center gap-4">
-              <img
-                src={testimonial.image}
-                alt={testimonial.name}
-                className="w-16 h-16 rounded-full object-cover border-2 border-primary"
-              />
-              <div>
-                <h3 className="text-lg font-semibold text-foreground">
-                  {testimonial.name}
-                </h3>
-                <p className="text-sm text-foreground/70">
-                  {testimonial.role}
+                {/* Testimonial Text */}
+                <p className="text-sm md:text-base text-foreground/90 mb-4">
+                  {t.text}
                 </p>
-              </div>
-            </div>
-          </div>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={prev}
-              className="rounded-full p-2"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </Button>
+                {/* Customer Name & Role */}
+                <div>
+                  <h3 className="font-semibold text-foreground">{t.name}</h3>
+                  <p className="text-xs text-foreground/70">{t.role}</p>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
 
-            {/* Dots */}
-            <div className="flex gap-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    setCurrent(index)
-                    setAutoPlay(false)
-                  }}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    index === current ? 'bg-primary w-6' : 'bg-muted-foreground'
-                  }`}
-                />
-              ))}
-            </div>
-
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={next}
-              className="rounded-full p-2"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </Button>
-          </div>
-        </div>
+          {testimonials.length > 1 && (
+            <>
+              <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md" />
+              <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow-md" />
+            </>
+          )}
+        </Carousel>
       </div>
     </section>
   )

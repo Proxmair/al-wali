@@ -63,6 +63,9 @@ export default function Testimonials() {
           <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">
             From Our Customers
           </h2>
+          <p className="text-lg text-foreground/70 mb-8 font-bold">
+            Hear what our customers have to say about our fragrances.
+          </p>
         </div>
 
         <Carousel className="w-full">

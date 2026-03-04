@@ -73,7 +73,7 @@ export default function Testimonials() {
             {testimonials.map((t) => (
               <CarouselItem
                 key={t.id}
-                className="flex-1 w-full sm:min-w-[600px] min-w-[400px] bg-white p-6 rounded-lg shadow-md text-center"
+                className="flex-1 w-full sm:min-w-[600px] min-w-[300px] bg-white p-6 rounded-lg shadow-md text-center"
               >
                 {/* Rating */}
                 <div className="flex justify-center gap-1 mb-2">

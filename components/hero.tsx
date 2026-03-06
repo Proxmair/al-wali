@@ -4,7 +4,10 @@ import { Button } from '@/components/ui/button'
 
 export default function Hero() {
   return (
-    <section className='relative h-250 overflow-hidden bg-[url("/slider-1.jpeg")] bg-cover bg-no-repeat bg-center flex items-center justify-center'>
+   <section className='relative h-250 overflow-hidden 
+bg-[url("/slider-1-mobile.jpg")] 
+sm:bg-[url("/slider-1.jpeg")] 
+bg-cover bg-no-repeat bg-center flex items-center justify-center'>
       {/* Content */}
       <div className="relative z-10 xl:left-[20vw] bottom-57.5 flex flex-col justify-center xl:items-start px-4 max-w-3xl ">
         <h1 className=" text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-bold text-orange-900 mb-4 text-balance text-center xl:text-start">

@@ -41,7 +41,7 @@ export default function Navbar() {
             <Search className="w-4 h-4 text-muted-foreground" />
             <input
               type="text"
-              placeholder="Search fragrances..."
+              placeholder="Search attars..."
               className="bg-transparent outline-none w-full text-sm placeholder-muted-foreground"
             />
           </div>
@@ -53,7 +53,7 @@ export default function Navbar() {
             </button>
             <button className="p-2 hover:bg-muted rounded-full transition-colors relative">
               <ShoppingCart className="w-5 h-5 text-foreground" />
-              <span className="absolute top-1 right-1 bg-primary text-primary-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
+              <span className="absolute bottom-6 right-0 bg-primary text-primary-foreground text-xs rounded-full w-4 h-4 flex items-center justify-center">
                 0
               </span>
             </button>

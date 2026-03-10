@@ -10,7 +10,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '@/components/ui/carousel'
-import { ShoppingCart } from 'lucide-react'
+import { Heart, ShoppingCart } from 'lucide-react'
 
 interface Product {
   id: number
@@ -117,7 +117,7 @@ const products: Product[] = [
 
 export default function Products() {
   return (
-    <section className="py-16 md:py-24 px-4 bg-background">
+    <section id='collection' className="py-16 md:py-24 px-4 bg-background">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
@@ -125,7 +125,7 @@ export default function Products() {
             Our Collection
           </h2>
           <p className="text-lg text-foreground/70 mb-8 font-bold">
-            Explore our curated selection of premium fragrances
+            Explore our curated selection of premium attars
           </p>
         </div>
 
@@ -170,9 +170,12 @@ export default function Products() {
 
               {/* Content */}
               <CardContent className="p-4">
-                <span className="text-xs font-semibold text-primary uppercase tracking-wide">
-                  {product.category}
-                </span>
+                <div className='flex justify-between'>
+                  <span className="text-xs font-semibold text-primary uppercase tracking-wide">
+                    {product.category}
+                  </span>
+                  <Heart className="w-5 h-5 text-foreground" />
+                </div>
 
                 <h3 className="text-lg font-semibold text-foreground mt-2 mb-2">
                   {product.name}

@@ -9,7 +9,7 @@ import Testimonials from '@/components/testimonials'
 import FAQ from '@/components/faq'
 import Footer from '@/components/footer'
 import TopNavbar from '@/components/top-navbar'
-
+import ContactUs from '@/components/contact-us'
 export default function Home() {
   return (
     <main className="min-h-screen bg-background">
@@ -20,6 +20,7 @@ export default function Home() {
       <Features />
       <Products />
       <Testimonials />
+      <ContactUs/>
       <FAQ />
       <Footer />
     </main>

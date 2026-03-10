@@ -27,7 +27,7 @@ const features: Feature[] = [
   {
     icon: <RefreshCw className="w-8 h-8" />,
     title: 'Free Returns',
-    description: '7-day hassle-free return policy on all products',
+    description: '7-day hassle-free return policy on all attars',
   },
 ]
 

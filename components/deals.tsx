@@ -38,7 +38,7 @@ const deals: Deal[] = [
 
 export default function Deals() {
   return (
-    <section className="py-16 md:py-24 px-4 bg-background mb-550 xl:mb-140">
+    <section id='deals' className="py-16 md:py-24 px-4 bg-background mb-550 xl:mb-140">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">

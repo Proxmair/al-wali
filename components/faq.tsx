@@ -32,7 +32,7 @@ const faqs: FAQItem[] = [
   },
   {
     id: 5,
-    question: 'Are your attars Alol free?',
+    question: 'Are your attars Alcohol free?',
     answer: 'Al-Wali attars are alcohol free.The perfumes contain alcohol',
   },
   {
@@ -89,19 +89,6 @@ export default function FAQ() {
               )}
             </div>
           ))}
-        </div>
-
-        {/* Contact CTA */}
-        <div className="mt-12 p-8 bg-muted/50 rounded-lg text-center border border-border">
-          <p className="text-foreground mb-4">
-            Didn&apos;t find your answer?
-          </p>
-          <a
-            href="mailto:support@alwali.com"
-            className="inline-block px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium"
-          >
-            Contact Our Support Team
-          </a>
         </div>
       </div>
     </section>

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { ShoppingCart, Heart, User, Search, Menu, X } from 'lucide-react'
 import Logo from '@/public/main-logo.png'
 import Image from 'next/image'
+import { scrollToSection } from '@/lib/utils'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -13,7 +14,7 @@ export default function Navbar() {
       <div className="mx-auto px-1 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center sm:h-40 h-24">
           {/* Logo */}
-          <div className="shrink-0">
+          <div onClick={() => scrollToSection('hero')} className="shrink-0">
             <Image
               src={Logo}
               alt="AL Wali"
@@ -25,13 +26,13 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#" className="text-foreground hover:text-primary transition-colors text-sm font-medium">
+            <a onClick={() => scrollToSection('collection')} className="text-foreground hover:text-primary transition-colors text-sm font-medium hover:cursor-pointer">
               Collection
             </a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors text-sm font-medium">
-              About Us
+            <a onClick={() => scrollToSection('deals')} className="text-foreground hover:text-primary transition-colors text-sm font-medium hover:cursor-pointer">
+              Deals
             </a>
-            <a href="#" className="text-foreground hover:text-primary transition-colors text-sm font-medium">
+            <a onClick={() => scrollToSection('contact')} className="text-foreground hover:text-primary transition-colors text-sm font-medium hover:cursor-pointer">
               Contact Us
             </a>
           </div>
@@ -86,13 +87,13 @@ export default function Navbar() {
                 className="bg-transparent outline-none w-full text-sm"
               />
             </div>
-            <a href="#" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+            <a onClick={() => {scrollToSection('collection'); setIsOpen(!isOpen)}} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
               Collection
             </a>
-            <a href="#" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
-              About Us
+            <a onClick={() => {scrollToSection('deals'); setIsOpen(!isOpen)}} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+              Deals
             </a>
-            <a href="#" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+            <a onClick={() => {scrollToSection('contact'); setIsOpen(!isOpen)}} className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
               Contact Us
             </a>
             <a href="#" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">

@@ -1,10 +1,11 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { scrollToSection } from '@/lib/utils'
 
 export default function Hero() {
   return (
-   <section className='relative h-250 overflow-hidden 
+   <section id='hero' className='relative h-250 overflow-hidden 
 bg-[url("/slider-1-mobile.jpg")] 
 sm:bg-[url("/slider-1.jpeg")] 
 bg-cover bg-no-repeat bg-center flex items-center justify-center'>
@@ -14,7 +15,7 @@ bg-cover bg-no-repeat bg-center flex items-center justify-center'>
           Andaz Apka Mehak Hamari
         </h1>
         <p className="text-md xl:text-lg text-foreground/80 mb-8 text-balance font-bold text-center xl:text-start">
-          Discover the essence of luxury with AL Wali&apos;s premium fragrance collection
+          Discover the essence of luxury with AL Wali&apos;s premium attars collection
         </p>
         <p className="text-md xl:text-lg text-white mb-8 text-balance bg-amber-900 p-3 xl:p-4 mx-auto rounded-2xl">
           Ramazan Special offer Buy 3 in pay of 2
@@ -24,6 +25,7 @@ bg-cover bg-no-repeat bg-center flex items-center justify-center'>
           <Button
             size={'default'}
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+            onClick={() => {scrollToSection('collection')}}
           >
             Shop Now
           </Button>

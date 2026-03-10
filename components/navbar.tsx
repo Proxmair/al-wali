@@ -1,12 +1,23 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Heart, User, Search, Menu, X } from 'lucide-react'
+import { ShoppingCart, Heart, User, Search, Menu, X, LogOut } from 'lucide-react'
 import Logo from '@/public/main-logo.png'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useAuth } from '@/hooks/useAuth'
+import { Button } from '@/components/ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const { user, isAuthenticated, logout, isLoading } = useAuth()
 
   return (
     <nav className="sticky top-0 z-50 bg-background border-b border-border shadow-sm">
@@ -57,9 +68,50 @@ export default function Navbar() {
                 0
               </span>
             </button>
-            <button className="hidden lg:inline-flex p-2 hover:bg-muted rounded-full transition-colors">
-              <User className="w-5 h-5 text-foreground" />
-            </button>
+
+            {/* Auth Actions */}
+            {isLoading ? (
+              <div className="hidden lg:flex h-10 w-10 rounded-full bg-muted animate-pulse" />
+            ) : isAuthenticated && user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button className="hidden lg:inline-flex p-2 hover:bg-muted rounded-full transition-colors">
+                    <User className="w-5 h-5 text-foreground" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <div className="px-2 py-1.5 text-sm">
+                    <p className="font-medium">{user.name}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link href="/account">My Account</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/orders">My Orders</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={logout} className="text-red-600">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="hidden lg:flex gap-2">
+                <Link href="/auth/login">
+                  <Button variant="ghost" size="sm">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/auth/signup">
+                  <Button size="sm">
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
+            )}
 
             {/* Mobile Menu Button */}
             <button
@@ -95,9 +147,32 @@ export default function Navbar() {
             <a href="#" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
               Contact Us
             </a>
-            <a href="#" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
-              Account
-            </a>
+            
+            {isAuthenticated && user ? (
+              <>
+                <a href="/account" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+                  My Account
+                </a>
+                <a href="/orders" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+                  My Orders
+                </a>
+                <button
+                  onClick={logout}
+                  className="block w-full text-left px-4 py-2 text-foreground hover:bg-muted rounded-lg text-red-600"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/auth/login" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg">
+                  Sign In
+                </Link>
+                <Link href="/auth/signup" className="block px-4 py-2 text-foreground hover:bg-muted rounded-lg font-medium">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
         )}
       </div>

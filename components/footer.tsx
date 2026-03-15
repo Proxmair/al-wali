@@ -1,8 +1,10 @@
 'use client'
 
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react'
+import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Youtube } from 'lucide-react'
 import Image from 'next/image'
 import Logo from '@/public/main-logo.png'
+import { scrollToSection } from '@/lib/utils'
+import TikTok from '@/public/tiktok.svg'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -19,7 +21,7 @@ export default function Footer() {
             className="w-[600px] h-auto mx-auto"
           />
 
-          
+
         </div>
 
         {/* Row 2 - Links */}
@@ -27,40 +29,43 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div className="flex flex-col gap-6">
-  <div>
-    <h3 className="text-lg font-semibold mb-5">Quick Links</h3>
-    <ul className="space-y-3 text-sm text-white/80">
-      <li><a href="#" className="hover:text-white">Shop All</a></li>
-      <li><a href="#" className="hover:text-white">New Arrivals</a></li>
-      <li><a href="#" className="hover:text-white">Best Sellers</a></li>
-      <li><a href="#" className="hover:text-white">Gift Sets</a></li>
-      <li><a href="#" className="hover:text-white">Bundle Deals</a></li>
-    </ul>
-  </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-5">Quick Links</h3>
+              <ul className="space-y-3 text-sm text-white/80">
+                <li><a onClick={() => scrollToSection('deals')} className="hover:text-white hover:cursor-pointer">Exclusive Deals</a></li>
+                <li><a onClick={() => scrollToSection('why-us')} className="hover:text-white hover:cursor-pointer">Why Choose AL Wali</a></li>
+                <li><a onClick={() => scrollToSection('collection')} className="hover:text-white hover:cursor-pointer">Our Collection</a></li>
+                <li><a onClick={() => scrollToSection('testimonials')} className="hover:text-white hover:cursor-pointer">From Our Customers</a></li>
+                <li><a onClick={() => scrollToSection('faq')} className="hover:text-white hover:cursor-pointer">Frequently Asked Questions</a></li>
+              </ul>
+            </div>
 
-  <div className="flex gap-4 items-center pt-2">
-    <a href="#" className="p-2 hover:bg-white/10 rounded-lg transition">
-      <Facebook size={18} />
-    </a>
-    <a href="#" className="p-2 hover:bg-white/10 rounded-lg transition">
-      <Instagram size={18} />
-    </a>
-    <a href="#" className="p-2 hover:bg-white/10 rounded-lg transition">
-      <Twitter size={18} />
-    </a>
-    <a href="#" className="p-2 hover:bg-white/10 rounded-lg transition">
-      <Linkedin size={18} />
-    </a>
-  </div>
-</div>
+            <div className="flex gap-4 items-center pt-2">
+              <a href="https://www.facebook.com/share/1EABFv2a2S/" className="p-2 hover:bg-white/10 rounded-lg transition">
+                <Facebook size={18} />
+              </a>
+              <a href="https://www.youtube.com/@alwali.store3" className="p-2 hover:bg-white/10 rounded-lg transition">
+                <Youtube size={18} />
+              </a>
+              <a href="https://www.instagram.com/alwali.store3?igsh=MTRmNnhwczdjM2plNg==" className="p-2 hover:bg-white/10 rounded-lg transition">
+                <Instagram size={18} />
+              </a>
+              <Image
+            src={TikTok}
+            alt="TikTok"
+            className="p-2 hover:bg-white/10 rounded-lg transition bg-white"
+          />
+              {/* <Image ={TikTok} className="p-2 hover:bg-white/10 rounded-lg transition">
+                
+              </image> */}
+            </div>
+          </div>
 
           {/* Company */}
           <div>
             <h3 className="text-lg font-semibold mb-5">Company</h3>
             <ul className="space-y-3 text-sm text-white/80">
-              <li><a href="#" className="hover:text-white">Contact Us</a></li>
-              <li><a href="#" className="hover:text-white">Blog</a></li>
-              <li><a href="#" className="hover:text-white">Careers</a></li>
+              <li><a onClick={() => scrollToSection('contact')} className="hover:text-white hover:cursor-pointer">Contact Us</a></li>
             </ul>
           </div>
 
@@ -72,20 +77,20 @@ export default function Footer() {
               <div className="flex items-center gap-3">
                 <Phone size={18} />
                 <a href="tel:+919876543210" className="hover:text-white">
-                  +91 98765 43210
+                  +92 3350004779
                 </a>
               </div>
 
               <div className="flex items-center gap-3">
                 <Mail size={18} />
                 <a href="mailto:support@alwali.com" className="hover:text-white">
-                  support@alwali.com
+                  alwali.store3@gmail.com
                 </a>
               </div>
 
               <div className="flex items-start gap-3">
                 <MapPin size={18} />
-                <p>Mumbai, India</p>
+                <p className='hover:cursor-pointer'>Mumbai, India</p>
               </div>
 
             </div>
@@ -101,9 +106,9 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} AL Wali. All rights reserved. | Andak Apka Mehak Humari</p>
 
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white">Privacy Policy</a>
-            <a href="#" className="hover:text-white">Terms & Conditions</a>
-            <a href="#" className="hover:text-white">Shipping Info</a>
+            <a className="hover:text-white">Privacy Policy</a>
+            <a className="hover:text-white">Terms & Conditions</a>
+            <a className="hover:text-white">Shipping Info</a>
           </div>
         </div>
 

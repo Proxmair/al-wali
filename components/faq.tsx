@@ -47,7 +47,7 @@ export default function FAQ() {
   const [openId, setOpenId] = useState<number | null>(null)
 
   return (
-    <section className="py-16 md:py-24 px-4 bg-background">
+    <section id='faq' className="py-16 md:py-24 px-4 bg-background">
       <div className="max-w-3xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">

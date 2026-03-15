@@ -1,32 +1,56 @@
+'use client'
+
 import React, { useState } from "react";
-import { toast } from "@/components/ui/use-toast"; // shadcn/ui toast hook
+import emailjs from "@emailjs/browser";
+import { toast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
 const ContactUs = () => {
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
   });
 
-  const handleChange = (e:any) => {
+  const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e:any) => {
-    e.preventDefault();
+  const handleSubmit = async (e: any) => {
+  e.preventDefault();
+  setLoading(true);
 
-    // Show shadcn toast
-    toast({
-      title: "Thank you!",
-      description: "Your message has been sent successfully.",
+  try {
+    const res = await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
     });
 
-    // Clear form
-    setFormData({ name: "", email: "", message: "" });
-  };
+    const data = await res.json();
+
+    if (data.success) {
+      toast({
+        title: "Message Sent ✅",
+        description: "Thank you! Your message has been sent successfully.",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    } else {
+      throw new Error(data.error || "Failed to send message");
+    }
+  } catch (error: any) {
+    toast({
+      title: "Error ❌",
+      description: error.message || "Something went wrong",
+      variant: "destructive",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <section id="contact" className="py-16 md:py-24 px-4 bg-background">
@@ -80,8 +104,11 @@ const ContactUs = () => {
             />
           </div>
 
-          <Button type="submit" className="w-full bg-amber-950 hover:bg-amber-900">
-            Send Message
+          <Button
+            type="submit"
+            className="w-full bg-amber-950 hover:bg-amber-900"
+          >
+            {loading ? "Sending..." : "Send Message"}
           </Button>
         </form>
       </div>

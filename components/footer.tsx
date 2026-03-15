@@ -4,7 +4,7 @@ import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin, Youtube } 
 import Image from 'next/image'
 import Logo from '@/public/main-logo.png'
 import { scrollToSection } from '@/lib/utils'
-import TikTok from '@/public/tiktok.svg'
+import TikTok from '@/public/tiktok.png'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -16,6 +16,7 @@ export default function Footer() {
         {/* Row 1 - Brand */}
         <div className="flex flex-col items-start gap-6 mb-12">
           <Image
+            onClick={() => scrollToSection('hero')}
             src={Logo}
             alt="AL Wali"
             className="w-[600px] h-auto mx-auto"
@@ -50,11 +51,17 @@ export default function Footer() {
               <a href="https://www.instagram.com/alwali.store3?igsh=MTRmNnhwczdjM2plNg==" className="p-2 hover:bg-white/10 rounded-lg transition">
                 <Instagram size={18} />
               </a>
-              <Image
-            src={TikTok}
-            alt="TikTok"
-            className="p-2 hover:bg-white/10 rounded-lg transition bg-white"
-          />
+
+              <a href='https://www.tiktok.com/@alwali.store3?_r=1&_t=ZS-94ihggzB7iM'>
+
+                <Image
+                  src={TikTok}
+                  alt="TikTok"
+                  width={34}
+                  height={34}
+                  className="p-2 hover:bg-white/10 rounded-lg transition"
+                />
+              </a>
               {/* <Image ={TikTok} className="p-2 hover:bg-white/10 rounded-lg transition">
                 
               </image> */}
@@ -90,7 +97,7 @@ export default function Footer() {
 
               <div className="flex items-start gap-3">
                 <MapPin size={18} />
-                <p className='hover:cursor-pointer'>Mumbai, India</p>
+                <p className='hover:cursor-pointer'>R799 , sector 15A4 , Bufferzone , Karachi , Sindh , Pakistan</p>
               </div>
 
             </div>

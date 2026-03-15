@@ -20,40 +20,40 @@ interface Testimonial {
 const testimonials: Testimonial[] = [
   {
     id: 1,
-    name: 'Ali A.',
+    name: 'Abdurehman',
     role: 'Customer',
     rating: 5,
-    text: 'It was an excellent experience using that fragrance. Highly recommend.',
+    text: 'Bohat zabardast fragrance hai. Maine White Oud liya tha, poora din khushboo rehti hai. Packaging bhi bohat premium hai. Higly recommeded!!',
   },
   {
     id: 2,
-    name: 'Sofia K.',
+    name: 'Usama Ali',
     role: 'Customer',
     rating: 5,
-    text: "It is amazing 😍 My partner suggested me that... And I'm in love with this. Whenever I used this I feel like he is with me ❤️",
+    text: 'Honestly expected nahi tha itni achi quality hogi. Rose attar bohat zabardast aur soft smell hai.',
   },
   {
     id: 3,
-    name: 'Muzamil A.',
+    name: 'Hassan Khan',
     role: 'Customer',
     rating: 5,
-    text: 'Alhamdulillah today received my parcel and Ma sha Allah fragrance is too good 🌸 Highly recommended!',
+    text: 'Maine tester deal li thi aur mujhe idea ho gaya kounsa fragrance best hai. Bohat achi deal hai.',
   },
   {
     id: 4,
-    name: 'Ahmed S.',
+    name: 'Saad',
     role: 'Customer',
     rating: 4,
-    text: 'Lovely fragrance, and the delivery was fast!',
+    text: 'Packaging ka to jawab nahi, maza aa gaya. Attar ki quality bohat achi hai.',
   },
   {
     id: 5,
-    name: 'Ahmed S.',
+    name: 'Anusha',
     role: 'Customer',
     rating: 4,
-    text: 'Lovely fragrance, and the delivery was fast!',
+    text: 'First time try kiya tha lekin honestly impressed ho gai.',
   },
-]
+];
 
 export default function Testimonials() {
   return (

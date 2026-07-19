@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Heart, User, Search, Menu, X } from 'lucide-react'
+import { ShoppingCart, Heart, User,Lock, Search, Menu, X } from 'lucide-react'
 import Logo from '@/public/main-logo.png'
 import Image from 'next/image'
 import { scrollToSection } from '@/lib/utils'
@@ -10,6 +10,8 @@ import { scrollToSection } from '@/lib/utils'
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
+import { AuthModal } from './modals/AuthModal'
+import { UserModal } from './modals/UserModal';
 
 
 interface IconButtonProps {
@@ -40,7 +42,21 @@ function IconButtons() {
 
   const favouriteCount = useSelector((state: RootState) => state.counter.favourite.count);
   const cartCount = useSelector((state: RootState) => state?.counter?.cart?.count);
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
 
+  const [isOpen, setIsOpen] = useState(false);
+  const [userModalOpen, setUserModalOpen] = useState(false);
+
+  const handleAuthModalOpen = () => {
+    if (!isLoggedIn)
+    {
+      setIsOpen(true);
+    }
+    else {
+      setUserModalOpen(true);
+    }
+  }
+  
   return (
     <div className="flex items-center space-x-2">
       <IconButton count={favouriteCount || undefined} tooltip="Favourite">
@@ -51,9 +67,20 @@ function IconButtons() {
         <ShoppingCart className="w-5 h-5 text-foreground" />
       </IconButton>
 
-      <IconButton tooltip="Profile">
-        <User className="w-5 h-5 text-foreground" />
+      <IconButton tooltip={isLoggedIn ? "My Account" : "Login"}>
+        <div onClick={handleAuthModalOpen}>
+          {isLoggedIn ? (
+            <User className="w-5 h-5 text-foreground" />
+          ) : (
+            <Lock className="w-5 h-5 text-foreground" />
+          )}
+        </div>
       </IconButton>
+      <AuthModal open={isOpen} onOpenChange={setIsOpen} defaultTab="login" />
+      <UserModal
+        open={userModalOpen}
+        onOpenChange={setUserModalOpen}
+      />
     </div>
   );
 }

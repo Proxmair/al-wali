@@ -2,8 +2,21 @@
 
 import { Button } from '@/components/ui/button'
 import { scrollToSection } from '@/lib/utils'
+import { RootState } from '@/store';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { AuthModal } from './modals/AuthModal';
 
 export default function Hero() {
+  const isLoggedIn = useSelector((state: RootState) => state.user.isLoggedIn);
+const [isOpen, setIsOpen] = useState(false);
+  const handleAuthModalOpen = () => {
+    if (!isLoggedIn)
+    {
+      setIsOpen(true);
+    }
+  }
+
   return (
    <section id='hero' className='relative h-250 overflow-hidden 
 bg-[url("/slider-1-mobile.jpg")] 
@@ -29,15 +42,17 @@ bg-cover bg-no-repeat bg-center flex items-center justify-center'>
           >
             Shop Now
           </Button>
-          <Button 
+          {!isLoggedIn && <Button 
             size={'default'}
             variant="outline"
+            onClick={handleAuthModalOpen}
             className="border-2 border-foreground text-foreground hover:bg-foreground hover:text-background font-semibold"
           >
             Sign In
-          </Button>
+          </Button>}
         </div>
       </div>
+       <AuthModal open={isOpen} onOpenChange={setIsOpen} defaultTab="login" />
     </section>
   )
 }

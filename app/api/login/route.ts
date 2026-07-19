@@ -44,10 +44,13 @@ export async function POST(req: Request) {
       },
     });
   } catch (error) {
-    console.error(error);
+    console.error("Login Error:", error);
 
     return NextResponse.json(
-      { message: "Something went wrong." },
+      {
+        success: false,
+        error: error instanceof Error ? error.message : error,
+      },
       { status: 500 }
     );
   }

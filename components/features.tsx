@@ -27,13 +27,13 @@ const features: Feature[] = [
   {
     icon: <RefreshCw className="w-8 h-8" />,
     title: 'Free Returns',
-    description: '7-day hassle-free return policy on all products',
+    description: '7-day hassle-free return policy on all attars',
   },
 ]
 
 export default function Features() {
   return (
-    <section className="py-16 md:py-24 px-4 bg-muted/30">
+    <section id='why-us' className="py-16 md:py-24 px-4 bg-muted/30">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">

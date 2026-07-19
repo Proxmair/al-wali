@@ -38,7 +38,7 @@ const deals: Deal[] = [
 
 export default function Deals() {
   return (
-    <section className="py-16 md:py-24 px-4 bg-background mb-550 xl:mb-140">
+    <section id='deals' className="py-16 md:py-24 px-4 bg-background mb-550 xl:mb-140">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-7xl text-amber-950 font-bold mb-4">
@@ -54,8 +54,9 @@ export default function Deals() {
             <Card
               key={deal.id}
               className={`relative overflow-hidden rounded-none border-0 shadow-lg hover:shadow-xl transition-shadow bg-[url("/deal${index + 1}.jpg")] bg-center bg-cover bg-no-repeat`}
-              style={{ backgroundImage: `url(/deal${index + 1}.jpg)` }}
+              style={{ backgroundImage: `url(/deal${index + 1}-mobile.jpg)` }}
             >
+              
               {/* Badge */}
               <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-foreground px-4 py-2 rounded-full flex items-center gap-2">
                 <Tag className="w-4 h-4" />

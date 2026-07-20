@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { AuthModal } from './modals/AuthModal'
 import { UserModal } from './modals/UserModal';
+import { CartModal } from './modals/CartModal'
 
 
 interface IconButtonProps {
@@ -46,6 +47,7 @@ function IconButtons() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [userModalOpen, setUserModalOpen] = useState(false);
+  const [cartModalOpen, setCartModalOpen] = useState(false);
 
   const handleAuthModalOpen = () => {
     if (!isLoggedIn)
@@ -56,6 +58,10 @@ function IconButtons() {
       setUserModalOpen(true);
     }
   }
+
+  const handleCartModalOpen = () => {
+    setCartModalOpen(true);
+  }
   
   return (
     <div className="flex items-center space-x-2">
@@ -64,7 +70,9 @@ function IconButtons() {
       </IconButton>
 
       <IconButton count={cartCount || undefined} tooltip="Cart">
-        <ShoppingCart className="w-5 h-5 text-foreground" />
+        <div onClick={handleCartModalOpen}>
+          <ShoppingCart className="w-5 h-5 text-foreground" />
+        </div>
       </IconButton>
 
       <IconButton tooltip={isLoggedIn ? "My Account" : "Login"}>
@@ -76,11 +84,19 @@ function IconButtons() {
           )}
         </div>
       </IconButton>
-      <AuthModal open={isOpen} onOpenChange={setIsOpen} defaultTab="login" />
+      <AuthModal 
+        open={isOpen} 
+        onOpenChange={setIsOpen} 
+        defaultTab="login" />
       <UserModal
         open={userModalOpen}
         onOpenChange={setUserModalOpen}
       />
+      <CartModal 
+        open={cartModalOpen} 
+        onOpenChange={setCartModalOpen} 
+      />
+
     </div>
   );
 }

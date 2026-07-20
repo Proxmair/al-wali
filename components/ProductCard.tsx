@@ -142,7 +142,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
         <div className="flex items-center gap-1 mb-3">
           <div className="flex text-yellow-400">
-            {[...Array(product.rating)].map((_, i) => (
+            {[...Array(product?.rating)]?.map((_, i) => (
               <span key={i}>★</span>
             ))}
           </div>

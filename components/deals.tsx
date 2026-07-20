@@ -50,7 +50,7 @@ export default function Deals() {
         </div>
 
         <div className="absolute left-0 w-screen grid grid-cols-1 xl:grid-cols-3 gap-0.5 xl:h-160 h-550">
-          {deals.map((deal, index) => (
+          {deals?.map((deal, index) => (
             <Card
               key={deal.id}
               className={`relative overflow-hidden rounded-none border-0 shadow-lg hover:shadow-xl transition-shadow bg-[url("/deal${index + 1}.jpg")] bg-center bg-cover bg-no-repeat`}

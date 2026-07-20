@@ -229,11 +229,11 @@ const ProductModal = ({
                   <div className="rounded-lg border p-3 text-sm text-muted-foreground">
                     <div className="mb-2 flex items-center gap-2">
                       <Upload className="h-4 w-4" />
-                      {images.length} image(s) selected
+                      {images?.length} image(s) selected
                     </div>
 
                     <ul className="space-y-1">
-                      {images.map((image, index) => (
+                      {images?.map((image, index) => (
                         <li key={index}>{image.name}</li>
                       ))}
                     </ul>

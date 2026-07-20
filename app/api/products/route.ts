@@ -24,17 +24,15 @@ export async function GET() {
         status: 200,
       }
     );
-  } catch (error) {
-    console.error(error);
+  }  catch (error) {
+    console.error("Login Error:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Failed to fetch products.",
+        error: error instanceof Error ? error.message : error,
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
@@ -111,17 +109,15 @@ export async function POST(req: Request) {
         status: 201,
       }
     );
-  } catch (error) {
-    console.error(error);
+  }  catch (error) {
+    console.error("Login Error:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Internal Server Error",
+        error: error instanceof Error ? error.message : error,
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }
@@ -164,7 +160,7 @@ export async function DELETE(req: Request) {
     // Delete all images from Vercel Blob
     if (product.images?.length) {
       await Promise.all(
-        product.images.map(async (url: string) => {
+        product?.images?.map(async (url: string) => {
           try {
             await del(url);
           } catch (err) {
@@ -185,17 +181,15 @@ export async function DELETE(req: Request) {
         status: 200,
       }
     );
-  } catch (error) {
-    console.error(error);
+  }  catch (error) {
+    console.error("Login Error:", error);
 
     return NextResponse.json(
       {
         success: false,
-        message: "Internal Server Error",
+        error: error instanceof Error ? error.message : error,
       },
-      {
-        status: 500,
-      }
+      { status: 500 }
     );
   }
 }

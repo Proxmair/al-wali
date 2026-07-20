@@ -60,7 +60,7 @@ export default function FAQ() {
 
         {/* FAQ Items */}
         <div className="space-y-4">
-          {faqs.map((faq) => (
+          {faqs?.map((faq) => (
             <div
               key={faq.id}
               className="border border-border rounded-lg overflow-hidden hover:border-primary transition-colors"

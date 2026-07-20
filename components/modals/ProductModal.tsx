@@ -233,7 +233,7 @@ const ProductModal = ({
                     </div>
 
                     <ul className="space-y-1">
-                      {images.map((image, index) => (
+                      {images?.map((image, index) => (
                         <li key={index}>{image.name}</li>
                       ))}
                     </ul>

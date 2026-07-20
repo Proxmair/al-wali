@@ -77,7 +77,7 @@ export default function Testimonials() {
               >
                 {/* Rating */}
                 <div className="flex justify-center gap-1 mb-2">
-                  {[...Array(t.rating)].map((_, i) => (
+                  {[...Array(t.rating)]?.map((_, i) => (
                     <Star
                       key={i}
                       className="w-5 h-5 text-yellow-400 fill-yellow-400"

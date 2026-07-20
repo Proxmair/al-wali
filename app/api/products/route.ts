@@ -160,7 +160,7 @@ export async function DELETE(req: Request) {
     // Delete all images from Vercel Blob
     if (product.images?.length) {
       await Promise.all(
-        product.images.map(async (url: string) => {
+        product?.images?.map(async (url: string) => {
           try {
             await del(url);
           } catch (err) {

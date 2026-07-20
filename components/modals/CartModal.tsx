@@ -64,7 +64,7 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
     0
   );
 
-  const deliveryCharges = products.length > 0 ? 100 : 0;
+  const deliveryCharges = products.length > 0 ? 150 : 0;
 
   const total = subtotal + deliveryCharges;
 

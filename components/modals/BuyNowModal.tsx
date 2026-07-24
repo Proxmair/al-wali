@@ -148,7 +148,7 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
     0
   );
 
-  const deliveryCharges = products.length > 0 ? 150 : 0;
+  const deliveryCharges = subtotal > 3000 ? 0 : products.length > 0 ? 150 : 0;
 
   const total = subtotal + deliveryCharges;
 

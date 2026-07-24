@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X, ShoppingCart } from "lucide-react";
+import { X, ShoppingCart, ShoppingBag } from "lucide-react";
 import { useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { RootState } from "@/store";
 import { Product } from "../ProductCard";
+import BuyNowModal from "./BuyNowModal";
 
 interface CartModalProps {
   open: boolean;
@@ -22,6 +23,7 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
+  const [isBuyNowModalOpen, setIsBuyNowModalOpen] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -67,6 +69,10 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
   const deliveryCharges = products.length > 0 ? 150 : 0;
 
   const total = subtotal + deliveryCharges;
+
+  const handleBuyNowClick = () => {
+    setIsBuyNowModalOpen(true);
+  };
 
   return (
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
@@ -194,18 +200,18 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
                   </div>
 
                   <Button
-                    size="lg"
-                    className="mt-5 w-full"
-                    onClick={() => {
-                      // TODO: Proceed to checkout
-                    }}
+                    onClick={handleBuyNowClick}
+                    className="w-full bg-secondary hover:bg-secondary/90 text-primary-foreground flex items-center justify-center gap-2"
                   >
-                    Proceed to Checkout
+                    <ShoppingBag className="w-4 h-4" />
+                    Buy Now
                   </Button>
                 </div>
               </div>
             )}
           </div>
+
+              <BuyNowModal open={isBuyNowModalOpen} onOpenChange={setIsBuyNowModalOpen} />
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

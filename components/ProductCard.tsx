@@ -8,11 +8,12 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Heart, LoaderCircle, ShoppingCart, Trash2 } from "lucide-react";
+import { Heart, LoaderCircle, ShoppingBag, ShoppingCart, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { toggleCart, toggleFavourite } from "@/store/slices/counterSlice";
 import { useState } from "react";
+import BuyNowModal from "./modals/BuyNowModal";
 
 export interface Product {
   _id: string;
@@ -39,6 +40,8 @@ const ProductCard = ({ product }: { product: Product }) => {
   const isAdmin = user?.role === "admin";
 
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isBuyNowModalOpen, setIsBuyNowModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState<string>("");
 
   const handleFavouriteClick = () => {
     dispatch(toggleFavourite(product._id));
@@ -47,6 +50,13 @@ const ProductCard = ({ product }: { product: Product }) => {
   const handleAddtoCartClick = () => {
     dispatch(toggleCart(product._id));
   };
+
+  const handleBuyNowClick = (product:Product) => {
+    if(product._id) {
+      setIsBuyNowModalOpen(true);
+      setSelectedProductId(product._id);
+    }
+  }
 
   const handleDelete = async () => {
     try {
@@ -79,6 +89,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   };
 
   return (
+    <>
     <Card
       key={product._id}
       className="overflow-hidden hover:shadow-lg p-0 transition-shadow border border-border"
@@ -159,6 +170,15 @@ const ProductCard = ({ product }: { product: Product }) => {
           </span>
         </div>
 
+            <div className="w-full flex flex-col gap-2">
+        <Button
+          onClick={() => handleBuyNowClick(product)}
+          className="w-full bg-secondary hover:bg-secondary/90 text-primary-foreground flex items-center justify-center gap-2"
+        >
+          <ShoppingBag className="w-4 h-4" />
+          Buy Now
+        </Button>
+
         <Button
           onClick={handleAddtoCartClick}
           className="w-full bg-primary hover:bg-primary/90 text-primary-foreground flex items-center justify-center gap-2"
@@ -166,8 +186,11 @@ const ProductCard = ({ product }: { product: Product }) => {
           <ShoppingCart className="w-4 h-4" />
           {isAddedtoCart ? "Remove from Cart" : "Add to Cart"}
         </Button>
+            </div>
       </CardContent>
     </Card>
+    <BuyNowModal selectedProductId={selectedProductId} open={isBuyNowModalOpen} onOpenChange={setIsBuyNowModalOpen} />
+    </>
   );
 };
 

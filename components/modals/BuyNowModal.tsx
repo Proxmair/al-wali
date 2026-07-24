@@ -3,12 +3,14 @@
 import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Product } from "../ProductCard";
-import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { clearCart } from "@/store/slices/counterSlice";
+import OrderModal, { OrderResponse } from "./OrderModal";
 
 interface BuyNowModalProps {
   open: boolean;
@@ -16,58 +18,26 @@ interface BuyNowModalProps {
   selectedProductId?: string;
 }
 
-const postalCodes = [
-  { area: "Buffer Zone", code: "75850" },
-  { area: "Al-Hyderi GPO", code: "74700" },
-  { area: "Baldia Town", code: "75760" },
-  { area: "Karachi Board of Secondary Education", code: "75990" },
-  { area: "Karachi ITE", code: "75700" },
-  { area: "Liaquatabad", code: "75900" },
-  { area: "Manghopir", code: "75890" },
-  { area: "Metroville", code: "75840" },
-  { area: "Nazimabad", code: "74600" },
-  { area: "Karachi PNAD", code: "75790" },
-  { area: "New Karachi", code: "75850" },
-  { area: "Orangi Town", code: "75800" },
-  { area: "Karachi City GPO", code: "74000" },
-  { area: "Karachi Habib Bank", code: "75650" },
-  { area: "Lyari", code: "75660" },
-  { area: "Maripur AF", code: "75750" },
-  { area: "Maripur CE", code: "75780" },
-  { area: "Sher Shah Colony", code: "75730" },
-  { area: "Clifton", code: "75600" },
-  { area: "Karachi GPO", code: "74200" },
-  { area: "Karachi Governor House", code: "75580" },
-  { area: "Karachi Hotel Metropole", code: "75520" },
-  { area: "Kemari", code: "75620" },
-  { area: "Manora", code: "75640" },
-  { area: "Karachi Cantt.", code: "75530" },
-  { area: "Defence Housing Society", code: "75500" },
-  { area: "Karachi JPMC", code: "75510" },
-  { area: "Karachi Saddar GPO", code: "74400" },
-  { area: "Karachi Federal B Area", code: "75950" },
-  { area: "Karachi Gulistan-e-Johar", code: "75290" },
-  { area: "Karachi Gulshan-e-Iqbal", code: "75300" },
-  { area: "Karachi Gulshan-e-Jamal", code: "75260" },
-  { area: "Karachi Gulzar-e-Hijri", code: "75330" },
-  { area: "Karachi Mosamyat Chowrangi", code: "75280" },
-  { area: "Karachi New Sabzi Mandi", code: "75340" },
-  { area: "Karachi Nishtar Road", code: "75550" },
-  { area: "Karachi PECHS Block 2", code: "75400" },
-  { area: "Shahrah-e-Faisal", code: "75350" },
-  { area: "Karachi University", code: "75270" },
-  { area: "Mehmoodabad", code: "75460" },
-  { area: "New Town GPO", code: "74800" },
-];
-
 export default function BuyNowModal({ open, onOpenChange, selectedProductId }: BuyNowModalProps) {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [address, setAddress] = useState("");
+  const [apartmentNo, setApartmentNo] = useState("");
+  const [city, setCity] = useState("");
+  const [postalCode, setPostalCode] = useState("");
+  const [country] = useState("Pakistan");
+  const [paymentMethod] = useState("Cash on Delivery");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successOpen, setSuccessOpen] = useState(false);
+  const [order, setOrder] = useState<OrderResponse | null>(null);
 
   const [rememberContact, setRememberContact] = useState(true);
   const [rememberAddress, setRememberAddress] = useState(true);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!email.trim() && !phone.trim()) {
@@ -75,13 +45,61 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
       return;
     }
 
-    // TODO: Continue checkout logic here
-    console.log({
-      email,
-      phone,
-      rememberContact,
-      rememberAddress,
-    });
+    if (!firstName.trim() || !lastName.trim() || !address.trim() || !city.trim()) {
+      alert("Please fill in all required delivery fields.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      setOrder(null);
+
+      const res = await fetch("/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: products.map((product) => ({
+            productId: product._id,
+            quantity: 1,
+          })),
+          customer: {
+            firstName,
+            lastName,
+            email,
+            phone,
+          },
+          shippingAddress: {
+            country,
+            address,
+            apartmentNo,
+            city,
+            postalCode,
+          },
+          paymentMethod,
+          deliveryCharges,
+          note: "",
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Failed to place order.");
+      }
+
+      setOrder(data.order ?? null);
+      setSuccessOpen(true);
+      onOpenChange(false);
+      dispatch(clearCart());
+
+    } catch (error) {
+      console.error(error);
+      alert(error instanceof Error ? error.message : "Failed to place order.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
@@ -91,7 +109,9 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
   useEffect(() => {
     if (!open) return;
 
-    if (selectedCartIds.length === 0) {
+    const idsToLoad = selectedProductId ? [selectedProductId] : selectedCartIds;
+
+    if (idsToLoad.length === 0) {
       setProducts([]);
       return;
     }
@@ -106,7 +126,7 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            ids: selectedProductId ? [selectedProductId] : selectedCartIds,
+            ids: idsToLoad,
           }),
         });
 
@@ -122,7 +142,7 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
     };
 
     fetchProducts();
-  }, [open, selectedCartIds]);
+  }, [open, selectedCartIds, selectedProductId]);
   const subtotal = products.reduce(
     (sum, product) => sum + product.discountedPrice,
     0
@@ -243,9 +263,11 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
                       Country
                     </label>
 
-                    <select className="h-11 w-full rounded-lg border px-3">
-                      <option>Pakistan</option>
-                    </select>
+                    <input
+                      value={country}
+                      readOnly
+                      className="h-11 w-full rounded-lg border bg-muted/40 px-3 text-sm"
+                    />
                   </div>
 
                   <div className="grid gap-4 md:grid-cols-2">
@@ -256,6 +278,8 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
 
                       <input
                         required
+                        value={firstName}
+                        onChange={(e) => setFirstName(e.target.value)}
                         className="h-11 w-full rounded-lg border px-3"
                       />
                     </div>
@@ -267,6 +291,8 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
 
                       <input
                         required
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
                         className="h-11 w-full rounded-lg border px-3"
                       />
                     </div>
@@ -280,6 +306,8 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
                     <input
                       required
                       placeholder="Street Address"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
                       className="h-11 w-full rounded-lg border px-3"
                     />
                   </div>
@@ -291,6 +319,8 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
 
                     <input
                       placeholder="Apartment / Floor / House No."
+                      value={apartmentNo}
+                      onChange={(e) => setApartmentNo(e.target.value)}
                       className="h-11 w-full rounded-lg border px-3"
                     />
                   </div>
@@ -301,27 +331,26 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
                         City
                       </label>
 
-                      <select className="h-11 w-full rounded-lg border px-3">
-                        <option>Karachi</option>
-                      </select>
+                      <input
+                        placeholder="City name"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        className="h-11 w-full rounded-lg border px-3"
+                      />
                     </div>
+                  </div>
 
-                    <div>
-                      <label className="mb-2 block text-sm font-medium">
-                        Area & Postal Code
-                      </label>
+                  <div>
+                    <label className="mb-2 block text-sm font-medium">
+                      Postal Code
+                    </label>
 
-                      <select className="h-11 w-full rounded-lg border px-3">
-                        {postalCodes.map((item) => (
-                          <option
-                            key={`${item.area}-${item.code}`}
-                            value={item.code}
-                          >
-                            {item.area} ({item.code})
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                    <input
+                      placeholder="Postal Code"
+                      value={postalCode}
+                      onChange={(e) => setPostalCode(e.target.value)}
+                      className="h-11 w-full rounded-lg border px-3"
+                    />
                   </div>
                 </div>
 
@@ -334,14 +363,16 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
                       Payment Method
                     </label>
 
-                    <select className="h-11 w-full rounded-lg border px-3">
-                      <option>Cash on Delivery</option>
-                    </select>
+                    <input
+                      value={paymentMethod}
+                      readOnly
+                      className="h-11 w-full rounded-lg border bg-muted/40 px-3 text-sm"
+                    />
                   </div>
                 </div>
 
-                <Button type="submit" className="h-12 w-full text-base">
-                  Place Order
+                <Button type="submit" className="h-12 w-full text-base" disabled={isSubmitting}>
+                  {isSubmitting ? "Placing Order..." : "Place Order"}
                 </Button>
               </form>
             </div>
@@ -427,6 +458,13 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
           </div>
         </Dialog.Content>
       </Dialog.Portal>
+
+      <OrderModal
+        open={successOpen}
+        onOpenChange={setSuccessOpen}
+        order={order}
+        message="Your order has been placed successfully. Here are the details of your order."
+      />
     </Dialog.Root>
   );
 }

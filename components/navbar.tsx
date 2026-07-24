@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Heart, User,Lock, Search, Menu, X } from 'lucide-react'
+import { ShoppingCart, Heart, User,Lock, Search, Menu, X, Container } from 'lucide-react'
 import Logo from '@/public/main-logo.png'
 import Image from 'next/image'
 import { scrollToSection } from '@/lib/utils'
@@ -11,8 +11,9 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip
 import { useSelector } from 'react-redux'
 import { RootState } from '@/store'
 import { AuthModal } from './modals/AuthModal'
-import { UserModal } from './modals/UserModal';
+import { UserModal } from './modals/UserModal'
 import { CartModal } from './modals/CartModal'
+import { TrackOrderModal } from './modals/TrackOrderModal'
 
 
 interface IconButtonProps {
@@ -48,6 +49,7 @@ function IconButtons() {
   const [isOpen, setIsOpen] = useState(false);
   const [userModalOpen, setUserModalOpen] = useState(false);
   const [cartModalOpen, setCartModalOpen] = useState(false);
+  const [trackModalOpen, setTrackModalOpen] = useState(false);
 
   const handleAuthModalOpen = () => {
     if (!isLoggedIn)
@@ -62,9 +64,19 @@ function IconButtons() {
   const handleCartModalOpen = () => {
     setCartModalOpen(true);
   }
-  
+
+  const handleTrackModalOpen = () => {
+    setTrackModalOpen(true);
+  }
+
   return (
     <div className="flex items-center space-x-2">
+      <IconButton count={favouriteCount || undefined} tooltip="My Orders">
+        <div onClick={handleTrackModalOpen}>
+          <Container className="w-5 h-5 text-foreground" />
+        </div>
+      </IconButton>
+      
       <IconButton count={favouriteCount || undefined} tooltip="Favourite">
         <Heart className="w-5 h-5 text-foreground" />
       </IconButton>
@@ -95,6 +107,10 @@ function IconButtons() {
       <CartModal 
         open={cartModalOpen} 
         onOpenChange={setCartModalOpen} 
+      />
+      <TrackOrderModal
+        open={trackModalOpen}
+        onOpenChange={setTrackModalOpen}
       />
 
     </div>

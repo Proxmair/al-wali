@@ -70,25 +70,25 @@ function IconButtons() {
   }
 
   return (
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-0">
       <IconButton count={favouriteCount || undefined} tooltip="My Orders">
         <div onClick={handleTrackModalOpen}>
-          <Container className="w-5 h-5 text-foreground" />
+          <Container className="sm:w-5 sm:h-5 h-4 w-4 text-foreground" />
         </div>
       </IconButton>
 
       <IconButton count={cartCount || undefined} tooltip="Cart">
         <div onClick={handleCartModalOpen}>
-          <ShoppingCart className="w-5 h-5 text-foreground" />
+          <ShoppingCart className="sm:w-5 sm:h-5 h-4 w-4 text-foreground" />
         </div>
       </IconButton>
 
       <IconButton tooltip={isLoggedIn ? "My Account" : "Login"}>
         <div onClick={handleAuthModalOpen}>
           {isLoggedIn ? (
-            <User className="w-5 h-5 text-foreground" />
+            <User className="sm:w-5 sm:h-5 h-4 w-4 text-foreground" />
           ) : (
-            <Lock className="w-5 h-5 text-foreground" />
+            <Lock className="sm:w-5 sm:h-5 h-4 w-4 text-foreground" />
           )}
         </div>
       </IconButton>
@@ -162,7 +162,7 @@ export default function Navbar() {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden p-2 hover:bg-muted rounded-full"
+              className="md:hidden px-0.5 hover:bg-muted rounded-full"
             >
               {isOpen ? (
                 <X className="w-5 h-5" />

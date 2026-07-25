@@ -8,7 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Heart, LoaderCircle, ShoppingBag, ShoppingCart, Trash2 } from "lucide-react";
+import { LoaderCircle, ShoppingBag, ShoppingCart, Trash2 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { toggleCart, toggleFavourite } from "@/store/slices/counterSlice";
@@ -139,12 +139,6 @@ const ProductCard = ({ product }: { product: Product }) => {
           <span className="text-xs font-semibold text-primary uppercase tracking-wide">
             {product.category}
           </span>
-          <Heart
-            onClick={handleFavouriteClick}
-            className={`w-5 h-5 text-foreground ${
-              isFavourite ? "text-red-400" : "text-black"
-            }`}
-          />
         </div>
 
         <h3 className="text-lg font-semibold text-foreground mt-2 mb-2">

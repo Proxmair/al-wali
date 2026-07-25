@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { ShoppingCart, Heart, User,Lock, Search, Menu, X, Container } from 'lucide-react'
+import { ShoppingCart, User,Lock, Search, Menu, X, Container } from 'lucide-react'
 import Logo from '@/public/main-logo.png'
 import Image from 'next/image'
 import { scrollToSection } from '@/lib/utils'
@@ -75,10 +75,6 @@ function IconButtons() {
         <div onClick={handleTrackModalOpen}>
           <Container className="w-5 h-5 text-foreground" />
         </div>
-      </IconButton>
-      
-      <IconButton count={favouriteCount || undefined} tooltip="Favourite">
-        <Heart className="w-5 h-5 text-foreground" />
       </IconButton>
 
       <IconButton count={cartCount || undefined} tooltip="Cart">

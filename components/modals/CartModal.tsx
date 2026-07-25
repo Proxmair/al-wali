@@ -66,7 +66,7 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
     0
   );
 
-  const deliveryCharges = products.length > 0 ? 150 : 0;
+  const deliveryCharges = subtotal > 3000 ? 0 : products.length > 0 ? 150 : 0;
 
   const total = subtotal + deliveryCharges;
 
@@ -183,9 +183,13 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
                         Delivery Charges
                       </span>
 
-                      <span className="font-medium">
-                        PKR {deliveryCharges.toLocaleString()}
-                      </span>
+                      {deliveryCharges > 0 ? (
+                        <span className="font-medium">
+                          PKR {deliveryCharges.toLocaleString()}
+                        </span>
+                      ) : (
+                        <span className="font-medium text-green-600">Free</span>
+                      )}
                     </div>
 
                     <div className="border-t pt-3">

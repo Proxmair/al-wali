@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Loader2, Upload, X } from "lucide-react";
 
@@ -8,16 +8,21 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Product } from "../ProductCard";
 
 interface ProductModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  selectedProduct?: Product;
 }
 
 const ProductModal = ({
   open,
   onOpenChange,
+  selectedProduct,
 }: ProductModalProps) => {
+  const isEditMode = selectedProduct ? true: false;
+
   const [loading, setLoading] = useState(false);
 
   const [formData, setFormData] = useState({
@@ -30,7 +35,33 @@ const ProductModal = ({
 
   const [images, setImages] = useState<File[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    if (selectedProduct) {
+      setFormData({
+        name: selectedProduct.name,
+        category: selectedProduct.category,
+        price: String(selectedProduct.price),
+        discountedPrice: String(
+          selectedProduct.discountedPrice
+        ),
+        rating: String(selectedProduct.rating),
+      });
+    } else {
+      setFormData({
+        name: "",
+        category: "",
+        price: "",
+        discountedPrice: "",
+        rating: "",
+      });
+
+      setImages([]);
+    }
+  }, [selectedProduct, open]);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setFormData((prev) => ({
       ...prev,
       [e.target.name]: e.target.value,
@@ -55,6 +86,10 @@ const ProductModal = ({
 
       const data = new FormData();
 
+      if (isEditMode && selectedProduct?._id) {
+        data.append("id", selectedProduct._id);
+      }
+
       data.append("name", formData.name);
       data.append("category", formData.category);
       data.append("price", formData.price);
@@ -64,19 +99,23 @@ const ProductModal = ({
       );
       data.append("rating", formData.rating);
 
-      images.forEach((image) => {
-        data.append("images", image);
-      });
+      if (images.length > 0) {
+        images.forEach((image) => {
+          data.append("images", image);
+        });
+      }
 
       const response = await fetch("/api/products", {
-        method: "POST",
+        method: isEditMode ? "PUT" : "POST",
         body: data,
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.message || "Something went wrong.");
+        throw new Error(
+          result.message || "Something went wrong."
+        );
       }
 
       console.log(result);
@@ -100,7 +139,10 @@ const ProductModal = ({
   };
 
   return (
-    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+    <Dialog.Root
+      open={open}
+      onOpenChange={onOpenChange}
+    >
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md data-[state=open]:animate-in data-[state=closed]:animate-out" />
 
@@ -123,11 +165,15 @@ const ProductModal = ({
             </Dialog.Close>
 
             <Dialog.Title className="text-center text-2xl font-bold">
-              Add Product
+              {isEditMode
+                ? "Edit Product"
+                : "Add Product"}
             </Dialog.Title>
 
             <Dialog.Description className="mt-2 text-center text-sm text-muted-foreground">
-              Fill in the product information.
+              {isEditMode
+                ? "Update the product information."
+                : "Fill in the product information."}
             </Dialog.Description>
 
             <form
@@ -135,7 +181,9 @@ const ProductModal = ({
               className="mt-8 space-y-5"
             >
               <div className="space-y-2">
-                <Label htmlFor="name">Product Name</Label>
+                <Label htmlFor="name">
+                  Product Name
+                </Label>
 
                 <Input
                   id="name"
@@ -148,7 +196,9 @@ const ProductModal = ({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="category">Category</Label>
+                <Label htmlFor="category">
+                  Category
+                </Label>
 
                 <Input
                   id="category"
@@ -162,7 +212,9 @@ const ProductModal = ({
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="price">Price</Label>
+                  <Label htmlFor="price">
+                    Price
+                  </Label>
 
                   <Input
                     id="price"
@@ -197,7 +249,9 @@ const ProductModal = ({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="rating">Rating</Label>
+                <Label htmlFor="rating">
+                  Rating
+                </Label>
 
                 <Input
                   id="rating"
@@ -214,7 +268,9 @@ const ProductModal = ({
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="images">Product Images</Label>
+                <Label htmlFor="images">
+                  Product Images
+                </Label>
 
                 <Input
                   id="images"
@@ -222,23 +278,36 @@ const ProductModal = ({
                   accept="image/*"
                   multiple
                   onChange={handleImageChange}
-                  required
+                  required={!isEditMode}
                 />
 
                 {images.length > 0 && (
                   <div className="rounded-lg border p-3 text-sm text-muted-foreground">
                     <div className="mb-2 flex items-center gap-2">
                       <Upload className="h-4 w-4" />
-                      {images?.length} image(s) selected
+                      {images.length} image(s)
+                      selected
                     </div>
 
                     <ul className="space-y-1">
-                      {images?.map((image, index) => (
-                        <li key={index}>{image.name}</li>
-                      ))}
+                      {images.map(
+                        (image, index) => (
+                          <li key={index}>
+                            {image.name}
+                          </li>
+                        )
+                      )}
                     </ul>
                   </div>
                 )}
+
+                {isEditMode &&
+                  images.length === 0 && (
+                    <p className="text-xs text-muted-foreground">
+                      Leave this empty to keep the
+                      existing images.
+                    </p>
+                  )}
               </div>
 
               <Button
@@ -249,8 +318,12 @@ const ProductModal = ({
                 {loading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating Product...
+                    {isEditMode
+                      ? "Updating Product..."
+                      : "Creating Product..."}
                   </>
+                ) : isEditMode ? (
+                  "Update Product"
                 ) : (
                   "Add Product"
                 )}

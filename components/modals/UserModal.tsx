@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { X, User, Mail, Phone, LogOut, Plus } from "lucide-react";
+import { X, User, Mail, Phone, LogOut } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { cn } from "@/lib/utils";
@@ -10,21 +10,20 @@ import { Button } from "@/components/ui/button";
 import { clearUser } from "@/store/slices/userSlice";
 import { RootState } from "@/store";
 import ProductModal from "./ProductModal";
+import AdminPanelModal from "./AdminPanelModal"
 
 interface UserModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function UserModal({
-  open,
-  onOpenChange,
-}: UserModalProps) {
+export function UserModal({ open, onOpenChange }: UserModalProps) {
   const dispatch = useDispatch();
 
   const user = useSelector((state: RootState) => state.user.user);
 
   const [productModalOpen, setProductModalOpen] = useState(false);
+  const [adminPanelOpen, setAdminPanelOpen] = useState(false);
 
   const handleLogout = () => {
     dispatch(clearUser());
@@ -34,6 +33,11 @@ export function UserModal({
   const handleAddProduct = () => {
     onOpenChange(false);
     setProductModalOpen(true);
+  };
+
+  const handleOpenAdminPanel = () => {
+    onOpenChange(false);
+    setAdminPanelOpen(true);
   };
 
   if (!user) return null;
@@ -77,9 +81,7 @@ export function UserModal({
                   </div>
 
                   <div>
-                    <p className="text-xs text-muted-foreground">
-                      Full Name
-                    </p>
+                    <p className="text-xs text-muted-foreground">Full Name</p>
                     <p className="font-medium">{user.name}</p>
                   </div>
                 </div>
@@ -90,9 +92,7 @@ export function UserModal({
                   </div>
 
                   <div>
-                    <p className="text-xs text-muted-foreground">
-                      Email
-                    </p>
+                    <p className="text-xs text-muted-foreground">Email</p>
                     <p className="font-medium">{user.email}</p>
                   </div>
                 </div>
@@ -111,12 +111,8 @@ export function UserModal({
                 </div>
 
                 {user.role === "admin" && (
-                  <Button
-                    className="w-full"
-                    onClick={handleAddProduct}
-                  >
-                    <Plus className="mr-2 h-4 w-4" />
-                    Add Product
+                  <Button className="w-full" onClick={handleOpenAdminPanel}>
+                    Open Admin Panel
                   </Button>
                 )}
 
@@ -133,7 +129,10 @@ export function UserModal({
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>
-
+      <AdminPanelModal 
+        open={adminPanelOpen} 
+        onOpenChange={setAdminPanelOpen} 
+      />
       <ProductModal
         open={productModalOpen}
         onOpenChange={setProductModalOpen}

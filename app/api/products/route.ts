@@ -123,6 +123,116 @@ export async function POST(req: Request) {
 }
 
 /**
+ * PUT - Update an existing product
+ */
+export async function PUT(req: Request) {
+  try {
+    await connectDB();
+
+    const formData = await req.formData();
+
+    const id = formData.get("id") as string;
+    const name = formData.get("name") as string;
+    const category = formData.get("category") as string;
+
+    const price = Number(formData.get("price"));
+    const discountedPrice = Number(
+      formData.get("discountedPrice")
+    );
+
+    const rating = Number(formData.get("rating"));
+
+    const files = formData.getAll("images") as File[];
+
+    if (
+      !id ||
+      !name ||
+      !category ||
+      !price ||
+      !discountedPrice
+    ) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Missing required fields.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Product not found.",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    let imageUrls = product.images;
+
+    // Replace images only if new ones are uploaded
+    if (files.length > 0) {
+      imageUrls = [];
+
+      for (const file of files) {
+        const blob = await put(
+          `products/${Date.now()}-${file.name}`,
+          file,
+          {
+            access: "public",
+          }
+        );
+
+        imageUrls.push(blob.url);
+      }
+    }
+
+    product.name = name;
+    product.category = category;
+    product.price = price;
+    product.discountedPrice = discountedPrice;
+    product.rating = rating;
+    product.images = imageUrls;
+
+    await product.save();
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Product updated successfully.",
+        product,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error("Update Product Error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        error:
+          error instanceof Error
+            ? error.message
+            : error,
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
+/**
  * DELETE - Delete a product
  */
 export async function DELETE(req: Request) {

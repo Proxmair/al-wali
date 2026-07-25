@@ -110,7 +110,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/70">
-          <p>© {new Date().getFullYear()} AL Wali. All rights reserved. | Andak Apka Mehak Humari</p>
+          <p>© {new Date().getFullYear()} AL Wali. All rights reserved. | Andaz Apka Mehak Humari</p>
 
           <div className="flex gap-6">
             <a className="hover:text-white">Privacy Policy</a>

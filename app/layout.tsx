@@ -6,7 +6,7 @@ import ReduxProvider from '@/store/provider'
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 export const metadata: Metadata = {
-  title: 'AL Wali - Premium Perfumes | Andak Apka Mehak Humari',
+  title: 'AL Wali - Premium Perfumes | Andaz Apka Mehak Humari',
   description: 'Discover exquisite fragrances at AL Wali. Premium quality perfumes with special deals and authentic products.',
   generator: 'v0.app',
   icons: {

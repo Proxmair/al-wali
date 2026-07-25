@@ -141,3 +141,129 @@ export async function POST(req: Request) {
     );
   }
 }
+
+
+/**
+ * GET - Fetch all orders
+ */
+export async function GET() {
+  try {
+    await connectDB();
+
+    const orders = await Order.find().sort({
+      createdAt: -1,
+    });
+
+    return NextResponse.json(
+      {
+        success: true,
+        orders,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error("Fetch Orders Error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong.",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
+/**
+ * PUT - Update order status
+ */
+export async function PUT(req: Request) {
+  try {
+    await connectDB();
+
+    const { id, status } = await req.json();
+
+    if (!id || !status) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Order id and status are required.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const validStatuses = [
+      "Pending",
+      "Processing",
+      "Shipped",
+      "Delivered",
+      "Cancelled",
+    ];
+
+    if (!validStatuses.includes(status)) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Invalid order status.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const order = await Order.findById(id);
+
+    if (!order) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Order not found.",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    order.status = status;
+
+    await order.save();
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Order status updated successfully.",
+        order,
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error("Update Order Error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Something went wrong.",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}

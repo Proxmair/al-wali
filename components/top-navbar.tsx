@@ -8,7 +8,7 @@ const TopNavbar = () => {
         <div className='flex sm:w-screen w-[200vw] justify-between whitespace-nowrap'>
           <p className={scollTextStyle}> Luxury Fragrance that stays with you all day</p>
           <p className={scollTextStyle}>25% Discounts on all products</p>
-          <p className={scollTextStyle}>Long  lasting elegance</p>
+          <p className={scollTextStyle}>Free delivery on orders up to 3000</p>
           <p className={scollTextStyle}>1 week easy return policy</p>
         </div>
         <div className='flex sm:w-screen w-[200vw] justify-evenly whitespace-nowrap'>

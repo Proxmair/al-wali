@@ -16,9 +16,10 @@ interface BuyNowModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   selectedProductId?: string;
+  selectedDealId?: string;
 }
 
-export default function BuyNowModal({ open, onOpenChange, selectedProductId }: BuyNowModalProps) {
+export default function BuyNowModal({ open, onOpenChange, selectedProductId, selectedDealId }: BuyNowModalProps) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -61,7 +62,15 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
         },
         body: JSON.stringify({
           items: products.map((product) => ({
-            productId: product._id,
+            ...(selectedDealId
+              ? {
+                  dealId: product._id,
+                  itemType: "Deal",
+                }
+              : {
+                  productId: product._id,
+                  itemType: "Product",
+                }),
             quantity: 1,
           })),
           customer: {
@@ -106,20 +115,54 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
   const selectedCartIds = useSelector(
     (state: RootState) => state.counter.cart.ids
   );
+
   useEffect(() => {
     if (!open) return;
-
-    const idsToLoad = selectedProductId ? [selectedProductId] : selectedCartIds;
-
-    if (idsToLoad.length === 0) {
-      setProducts([]);
-      return;
-    }
-
-    const fetchProducts = async () => {
+  
+    const fetchItems = async () => {
       try {
         setLoading(true);
-
+  
+        // If deal is selected, fetch deal instead of product
+        if (selectedDealId) {
+          const res = await fetch("/api/deals/cart", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ids: [selectedDealId],
+            }),
+          });
+  
+          const data = await res.json();
+  
+          const dealsAsProducts: Product[] = (data.deals ?? []).map(
+            (deal: any) => ({
+              _id: deal._id,
+              name: deal.name,
+              category: deal.category,
+              price: deal.price,
+              discountedPrice: deal.discountedPrice,
+              rating: deal.rating ?? 5,
+              images: deal.images ?? [],
+            })
+          );
+  
+          setProducts(dealsAsProducts);
+          return;
+        }
+  
+        // Existing product flow (backward compatible)
+        const idsToLoad = selectedProductId
+          ? [selectedProductId]
+          : selectedCartIds;
+  
+        if (idsToLoad.length === 0) {
+          setProducts([]);
+          return;
+        }
+  
         const res = await fetch("/api/products/cart", {
           method: "POST",
           headers: {
@@ -129,9 +172,9 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
             ids: idsToLoad,
           }),
         });
-
+  
         const data = await res.json();
-
+  
         setProducts(data.products ?? []);
       } catch (error) {
         console.error(error);
@@ -140,9 +183,10 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId }: B
         setLoading(false);
       }
     };
+  
+    fetchItems();
+  }, [open, selectedCartIds, selectedProductId, selectedDealId]);
 
-    fetchProducts();
-  }, [open, selectedCartIds, selectedProductId]);
   const subtotal = products.reduce(
     (sum, product) => sum + product.discountedPrice,
     0

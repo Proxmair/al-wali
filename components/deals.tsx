@@ -90,48 +90,61 @@ export default function Deals() {
           </div>
         ) : (
           <div className="absolute left-0 w-[98vw] grid grid-cols-1 xl:grid-cols-2 gap-0.5 xl:h-160 h-550">
-            {deals.map((deal) => (
-              <Card
-                key={deal._id}
-                className="relative overflow-hidden rounded-none border-0 shadow-lg hover:shadow-xl transition-shadow bg-center bg-cover bg-no-repeat"
-                style={{
-                  backgroundImage: `url(${deal.images?.[0]})`,
-                }}
-              >
-                {/* Badge */}
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-foreground px-4 py-2 rounded-full flex items-center gap-2">
-                  <Tag className="w-4 h-4" />
+           {deals.map((deal) => (
+  <Card
+    key={deal._id}
+    className="relative overflow-hidden rounded-none border-0 shadow-lg hover:shadow-xl transition-shadow bg-center bg-cover bg-no-repeat"
+  >
+    {/* Desktop Background */}
+    <div
+      className="absolute inset-0 hidden sm:block bg-center bg-cover bg-no-repeat"
+      style={{
+        backgroundImage: `url(${deal.images?.[0]})`,
+      }}
+    />
 
-                  <span className="font-bold text-sm">
-                    ${deal.dealDiscountPrice} OFF
-                  </span>
-                </div>
+    {/* Mobile Background */}
+    <div
+      className="absolute inset-0 block sm:hidden bg-center bg-cover bg-no-repeat"
+      style={{
+        backgroundImage: `url(${deal.images?.[1] || deal.images?.[0]})`,
+      }}
+    />
 
-                {/* Content */}
-                <div className="p-8 h-full flex flex-col justify-between">
-                  <div className="bg-black/50 text-white p-4 rounded-lg w-fit">
-                    <h3 className="text-4xl mb-4 text-balance">
-                      {deal.dealHeading}
-                    </h3>
+    {/* Badge */}
+    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-foreground px-4 py-2 rounded-full flex items-center gap-2 z-10">
+      <Tag className="w-4 h-4" />
 
-                    <p className="text-base leading-relaxed opacity-90">
-                      {deal.dealDescription}
-                    </p>
+      <span className="font-bold text-sm">
+        ${deal.dealDiscountPrice} OFF
+      </span>
+    </div>
 
-                    <p className="mt-3 text-sm">
-                      {deal.name}
-                    </p>
-                  </div>
+    {/* Content */}
+    <div className="relative z-10 p-8 h-full flex flex-col justify-between">
+      <div className="bg-black/50 text-white p-4 rounded-lg w-fit">
+        <h3 className="text-4xl mb-4 text-balance">
+          {deal.dealHeading}
+        </h3>
 
-                  <Button
-                    className="mt-6 w-full bg-white text-foreground hover:bg-white/90 font-semibold"
-                    onClick={() => handleBuyNowClick(deal)}
-                  >
-                    Buy Now
-                  </Button>
-                </div>
-              </Card>
-            ))}
+        <p className="text-base leading-relaxed opacity-90">
+          {deal.dealDescription}
+        </p>
+
+        <p className="mt-3 text-sm">
+          {deal.name}
+        </p>
+      </div>
+
+      <Button
+        className="mt-6 w-full bg-white text-foreground hover:bg-white/90 font-semibold"
+        onClick={() => handleBuyNowClick(deal)}
+      >
+        Buy Now
+      </Button>
+    </div>
+  </Card>
+))}
           </div>
         )}
       </div>

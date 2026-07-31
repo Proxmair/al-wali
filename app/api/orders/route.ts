@@ -4,10 +4,15 @@ import { connectDB } from "@/lib/mongodb";
 import Order from "@/models/Order";
 import Product from "@/models/Product";
 import Deal from "@/models/Deal";
+import { sendEmail } from "@/lib/sendEmail";
 
 function generateOrderNumber() {
   return `ORD-${Date.now()}-${Math.floor(1000 + Math.random() * 9000)}`;
 }
+
+/**
+ * POST - Create orders
+ */
 
 export async function POST(req: Request) {
   try {
@@ -76,17 +81,14 @@ export async function POST(req: Request) {
       // Deal order item
       if (item.itemType === "Deal") {
         const deal = dbDeals.find(
-          (dbDeal) =>
-            String(dbDeal._id) === String(item.dealId)
+          (dbDeal) => String(dbDeal._id) === String(item.dealId)
         );
 
         if (!deal) {
           throw new Error("One or more deals were not found.");
         }
 
-        const price = Number(
-          deal.discountedPrice ?? deal.price ?? 0
-        );
+        const price = Number(deal.discountedPrice ?? deal.price ?? 0);
 
         return {
           dealId: deal._id,
@@ -103,8 +105,7 @@ export async function POST(req: Request) {
       // Existing product order item
       const product = dbProducts.find(
         (dbProduct) =>
-          String(dbProduct._id) ===
-          String(item.productId || item._id)
+          String(dbProduct._id) === String(item.productId || item._id)
       );
 
       if (!product) {
@@ -112,10 +113,7 @@ export async function POST(req: Request) {
       }
 
       const price = Number(
-        product.discountedPrice ??
-          product.price ??
-          item.price ??
-          0
+        product.discountedPrice ?? product.price ?? item.price ?? 0
       );
 
       return {
@@ -163,8 +161,7 @@ export async function POST(req: Request) {
       0
     );
 
-    const total =
-      subtotal + Number(deliveryCharges || 0);
+    const total = subtotal + Number(deliveryCharges || 0);
 
     const orderNumber = generateOrderNumber();
 
@@ -200,6 +197,54 @@ export async function POST(req: Request) {
       note,
     });
 
+    try {
+      const html = `
+    <h2>New Order Received</h2>
+
+    <p><strong>Order Number:</strong> ${orderNumber}</p>
+
+    <h3>Customer Information</h3>
+    <p>
+      Name: ${customer.firstName} ${customer.lastName}<br/>
+      Email: ${customer.email || "N/A"}<br/>
+      Phone: ${customer.phone || "N/A"}
+    </p>
+
+    <h3>Shipping Address</h3>
+    <p>
+      ${shippingAddress.address},
+      ${shippingAddress.apartmentNo || ""}
+      ${shippingAddress.area ? `, ${shippingAddress.area}` : ""},
+      ${shippingAddress.city},
+      ${shippingAddress.country}
+      ${shippingAddress.postalCode ? ` - ${shippingAddress.postalCode}` : ""}
+    </p>
+
+    <h3>Order Items</h3>
+    <ul>
+      ${normalizedItems
+        .map(
+          (item) =>
+            `<li>${item.name} × ${item.quantity} - Rs. ${item.price}</li>`
+        )
+        .join("")}
+    </ul>
+
+    <p><strong>Payment Method:</strong> ${paymentMethod}</p>
+    <p><strong>Subtotal:</strong> Rs. ${subtotal}</p>
+    <p><strong>Delivery Charges:</strong> Rs. ${Number(
+      deliveryCharges || 0
+    )}</p>
+    <p><strong>Total:</strong> Rs. ${total}</p>
+
+    ${note ? `<p><strong>Customer Note:</strong> ${note}</p>` : ""}
+  `;
+
+      await sendEmail(html);
+    } catch (error) {
+      console.log("Email sending error:", error);
+    }
+
     const orderData = order.toObject();
 
     return NextResponse.json(
@@ -213,11 +258,9 @@ export async function POST(req: Request) {
           ...orderData,
           status: orderData.status ?? "Pending",
           createdAt:
-            orderData.createdAt?.toISOString?.() ??
-            orderData.createdAt,
+            orderData.createdAt?.toISOString?.() ?? orderData.createdAt,
           updatedAt:
-            orderData.updatedAt?.toISOString?.() ??
-            orderData.updatedAt,
+            orderData.updatedAt?.toISOString?.() ?? orderData.updatedAt,
         },
       },
       {
@@ -231,9 +274,7 @@ export async function POST(req: Request) {
       {
         success: false,
         message:
-          error instanceof Error
-            ? error.message
-            : "Something went wrong.",
+          error instanceof Error ? error.message : "Something went wrong.",
       },
       {
         status: 500,
@@ -241,7 +282,6 @@ export async function POST(req: Request) {
     );
   }
 }
-
 
 /**
  * GET - Fetch all orders
@@ -270,9 +310,7 @@ export async function GET() {
       {
         success: false,
         message:
-          error instanceof Error
-            ? error.message
-            : "Something went wrong.",
+          error instanceof Error ? error.message : "Something went wrong.",
       },
       {
         status: 500,
@@ -357,9 +395,7 @@ export async function PUT(req: Request) {
       {
         success: false,
         message:
-          error instanceof Error
-            ? error.message
-            : "Something went wrong.",
+          error instanceof Error ? error.message : "Something went wrong.",
       },
       {
         status: 500,

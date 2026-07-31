@@ -6,7 +6,7 @@ export default function WhatsAppButton() {
   return (
     <>
       <FloatingWhatsApp
-        phoneNumber="+92 320 2184312"
+        phoneNumber="+92 3350004779"
         accountName="Al Wali"
         avatar="/apple-icon.png"
         statusMessage="Typically replies within minutes"

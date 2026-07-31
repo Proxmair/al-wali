@@ -137,7 +137,7 @@ export function TrackOrderModal({
                   </p>
 
                   <a
-                    href="https://wa.me/1234567890"
+                    href="https://wa.me/+923350004779"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center font-medium text-green-600 transition hover:underline"

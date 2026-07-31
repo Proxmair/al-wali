@@ -34,20 +34,13 @@ const testimonials: Testimonial[] = [
   },
   {
     id: 3,
-    name: 'Hassan Khan',
-    role: 'Customer',
-    rating: 5,
-    text: 'Maine tester deal li thi aur mujhe idea ho gaya kounsa fragrance best hai. Bohat achi deal hai.',
-  },
-  {
-    id: 4,
     name: 'Saad',
     role: 'Customer',
     rating: 4,
     text: 'Packaging ka to jawab nahi, maza aa gaya. Attar ki quality bohat achi hai.',
   },
   {
-    id: 5,
+    id: 4,
     name: 'Anusha',
     role: 'Customer',
     rating: 4,

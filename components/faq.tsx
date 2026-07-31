@@ -12,35 +12,41 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     id: 1,
-    question: 'Are all fragrances 100% original?',
-    answer: 'Yes, all our fragrances are sourced directly from authorized distributors and manufacturers. We guarantee 100% authenticity on every product. Each item comes with proper packaging and batch information.',
+    question: "Are all fragrances 100% original?",
+    answer:
+      "Yes, all our fragrances are sourced directly from authorized distributors and manufacturers. We guarantee 100% authenticity on every product. Each item comes with proper packaging and batch information.",
   },
   {
     id: 2,
-    question: 'What is your return policy?',
-    answer: 'We offer a hassle-free 7-day return policy. If you\'re not satisfied with your purchase for any reason, you can return it within 7 days of delivery. The product should be in its original, unopened condition.',
+    question: "What is your return policy?",
+    answer:
+      "We offer a hassle-free 7-day return policy. If you're not satisfied with your purchase for any reason, you can return it within 7 days of delivery. The product should be in its original, unopened condition.",
   },
   {
     id: 3,
-    question: 'Do you offer free shipping?',
-    answer: 'Yes! We provide completely free shipping on all orders across Karachi, regardless of the order value. Orders are typically delivered within 3-5 business days.',
+    question: "Do you offer free shipping?",
+    answer:
+      "Yes! We provide completely free shipping on all orders across Karachi, regardless of the order value. We strive to deliver your order as quickly and safely as possible.",
   },
   {
     id: 4,
-    question: 'How should I apply Attar?',
-    answer: 'The most effective way to apply attar is to gently roll it directly onto the skin, focusing on your pulse points.These areas—such as the wrists, the nape of the neck, and behind the ears—help the fragrance develop and last longer.',
+    question: "How should I apply Attar?",
+    answer:
+      "The most effective way to apply attar is to gently roll it directly onto the skin, focusing on your pulse points. These areas—such as the wrists, the nape of the neck, and behind the ears—help the fragrance develop and last longer.",
   },
   {
     id: 5,
-    question: 'Are your attars Alcohol free?',
-    answer: 'Al-Wali attars are alcohol free.The perfumes contain alcohol',
+    question: "Are your attars Alcohol free?",
+    answer:
+      "Al-Wali attars are alcohol free. The perfumes contain alcohol.",
   },
   {
     id: 6,
-    question: 'What payment methods do you accept?',
-    answer: 'We accept all major credit cards, debit cards, cash on delivery. All transactions are encrypted and secured with advanced SSL technology.',
+    question: "What payment methods do you accept?",
+    answer:
+      "We currently accept Cash on Delivery (COD) only. You can pay for your order when it is delivered to your doorstep.",
   },
-]
+];
 
 
 export default function FAQ() {

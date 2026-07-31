@@ -11,7 +11,7 @@ interface Feature {
 const features: Feature[] = [
   {
     icon: <Truck className="w-8 h-8" />,
-    title: 'Free Delivery',
+    title: 'Fast Delivery',
     description: 'Complimentary shipping on all orders across the country',
   },
   {

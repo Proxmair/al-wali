@@ -5,6 +5,7 @@ import './globals.css'
 import ReduxProvider from '@/store/provider'
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
+import WhatsAppButton from '@/components/WhatsAppButton'
 export const metadata: Metadata = {
   title: 'AL Wali - Premium Perfumes | Andaz Apka Mehak Humari',
   description: 'Discover exquisite fragrances at AL Wali. Premium quality perfumes with special deals and authentic products.',
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body className="font-sans antialiased">
         <ReduxProvider>
           {children}
+          <WhatsAppButton />
         </ReduxProvider>
       </body>
     </html>

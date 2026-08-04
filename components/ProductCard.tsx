@@ -23,6 +23,7 @@ export interface Product {
   discountedPrice: number;
   images: string[];
   rating: number;
+  dealHeading?: string;
 }
 
 const ProductCard = ({ product }: { product: Product }) => {

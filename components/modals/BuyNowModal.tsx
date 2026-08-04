@@ -116,6 +116,8 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
     (state: RootState) => state.counter.cart.ids
   );
 
+  const [isDealProduct, setIsDealProduct] = useState(false);
+
   useEffect(() => {
     if (!open) return;
   
@@ -125,6 +127,7 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
   
         // If deal is selected, fetch deal instead of product
         if (selectedDealId) {
+          setIsDealProduct(true);
           const res = await fetch("/api/deals/cart", {
             method: "POST",
             headers: {
@@ -192,7 +195,7 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
     0
   );
 
-  const deliveryCharges = subtotal > 3000 ? 0 : products.length > 0 ? 150 : 0;
+  const deliveryCharges = (subtotal > 3000 || isDealProduct) ? 0 : products.length > 0 ? 150 : 0;
 
   const total = subtotal + deliveryCharges;
 

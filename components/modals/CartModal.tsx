@@ -24,6 +24,7 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [isBuyNowModalOpen, setIsBuyNowModalOpen] = useState(false);
+  const [isDealProduct, setIsDealProduct] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -50,6 +51,11 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
         const data = await res.json();
 
         setProducts(data.products ?? []);
+
+        if (products.length && products[0]?.dealHeading) {
+          setIsDealProduct(true);
+        }
+
       } catch (error) {
         console.error(error);
         setProducts([]);
@@ -66,7 +72,7 @@ export const CartModal = ({ open, onOpenChange }: CartModalProps) => {
     0
   );
 
-  const deliveryCharges = subtotal > 3000 ? 0 : products.length > 0 ? 150 : 0;
+  const deliveryCharges = (subtotal > 3000 || isDealProduct) ? 0 : products.length > 0 ? 150 : 0;
 
   const total = subtotal + deliveryCharges;
 

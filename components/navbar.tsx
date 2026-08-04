@@ -14,6 +14,7 @@ import { AuthModal } from './modals/AuthModal'
 import { UserModal } from './modals/UserModal'
 import { CartModal } from './modals/CartModal'
 import { TrackOrderModal } from './modals/TrackOrderModal'
+import SearchBar from './SearchBar'
 
 
 interface IconButtonProps {
@@ -146,14 +147,7 @@ export default function Navbar() {
           </div>
 
           {/* Search Bar - Desktop Only */}
-          <div className="hidden lg:flex items-center bg-muted rounded-full px-4 py-2 gap-2 flex-1 mx-8">
-            <Search className="w-4 h-4 text-muted-foreground" />
-            <input
-              type="text"
-              placeholder="Search attars..."
-              className="bg-transparent outline-none w-full text-sm placeholder-muted-foreground"
-            />
-          </div>
+          <SearchBar />
 
           {/* Right Actions */}
           <div className="flex items-center gap-4">

@@ -92,7 +92,8 @@ const ProductCard = ({ product }: { product: Product }) => {
   return (
     <>
     <Card
-      key={product._id}
+      id={`product-${product._id}`}
+      key={`product-${product._id}`}
       className="overflow-hidden hover:shadow-lg p-0 transition-shadow border border-border"
     >
       {/* Image Carousel */}

@@ -5,6 +5,7 @@ import Image from 'next/image'
 import Logo from '@/public/main-logo.png'
 import { scrollToSection } from '@/lib/utils'
 import TikTok from '@/public/tiktok.png'
+import Link from 'next/link'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -113,9 +114,9 @@ export default function Footer() {
           <p>© {new Date().getFullYear()} AL Wali. All rights reserved. | Andaz Apka Mehak Humari</p>
 
           <div className="flex gap-6">
-            <a className="hover:text-white">Privacy Policy</a>
-            <a className="hover:text-white">Terms & Conditions</a>
-            <a className="hover:text-white">Shipping Info</a>
+            <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
+            <Link href="/terms-and-conditions" className="hover:text-white">Terms & Conditions</Link>
+            <Link href="/shipping-info" className="hover:text-white">Shipping Info</Link>
           </div>
         </div>
 

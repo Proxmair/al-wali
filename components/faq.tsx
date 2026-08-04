@@ -24,24 +24,18 @@ const faqs: FAQItem[] = [
   },
   {
     id: 3,
-    question: "Do you offer free shipping?",
-    answer:
-      "Yes! We provide completely free shipping on all orders across Karachi, regardless of the order value. We strive to deliver your order as quickly and safely as possible.",
-  },
-  {
-    id: 4,
     question: "How should I apply Attar?",
     answer:
       "The most effective way to apply attar is to gently roll it directly onto the skin, focusing on your pulse points. These areas—such as the wrists, the nape of the neck, and behind the ears—help the fragrance develop and last longer.",
   },
   {
-    id: 5,
+    id: 4,
     question: "Are your attars Alcohol free?",
     answer:
       "Al-Wali attars are alcohol free. The perfumes contain alcohol.",
   },
   {
-    id: 6,
+    id: 5,
     question: "What payment methods do you accept?",
     answer:
       "We currently accept Cash on Delivery (COD) only. You can pay for your order when it is delivered to your doorstep.",

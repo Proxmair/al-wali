@@ -55,6 +55,7 @@ const LoginForm = ({onOpenChange}:{onOpenChange:(isOpen:boolean)=>void}) => {
       // Close modal
       onOpenChange(false);
        dispatch(setUser(data.user));
+       window.fbq("track", "CompleteRegistration");
     } catch (error: any) {
       console.error(error.message);
       alert(error.message);

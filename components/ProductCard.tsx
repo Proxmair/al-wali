@@ -49,6 +49,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   };
 
   const handleAddtoCartClick = () => {
+    window.fbq("track", "AddToCart");
     dispatch(toggleCart(product._id));
   };
 

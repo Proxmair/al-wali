@@ -100,6 +100,10 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
 
       setOrder(data.order ?? null);
       setSuccessOpen(true);
+      window.fbq("track", "Purchase", {
+        value: total,
+        currency: "PKR",
+      });
       onOpenChange(false);
       dispatch(clearCart());
 

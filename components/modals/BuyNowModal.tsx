@@ -210,25 +210,31 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
 
         <Dialog.Content
           className={cn(
-            "fixed left-1/2 top-1/2 z-50",
-            "max-h-[90vh] w-[95vw] max-w-5xl",
-            "-translate-x-1/2 -translate-y-1/2",
-            "overflow-y-auto rounded-2xl border bg-background shadow-2xl",
+            "fixed inset-x-0 bottom-0 z-50 mx-auto w-full max-w-5xl",
+            "max-h-[92dvh] overflow-y-auto rounded-t-2xl border bg-background shadow-2xl",
+            "sm:left-1/2 sm:top-1/2 sm:bottom-auto sm:w-[95vw] sm:max-h-[90vh] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-2xl",
             "focus:outline-none"
           )}
         >
-          <div className="flex flex-row">
-            <div className="relative p-6">
+          <div className="flex flex-col-reverse lg:flex-row">
               <Dialog.Close asChild>
                 <button
-                  className="absolute right-4 top-4 rounded-md p-2 hover:bg-muted"
+                  className="absolute lg:hidden block right-3 top-3 rounded-md p-2 hover:bg-muted sm:right-4 sm:top-4"
                   aria-label="Close"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </Dialog.Close>
-
-              <Dialog.Title className="text-3xl font-bold text-center">
+            <div className="relative w-full p-4 sm:p-6 lg:flex-1">
+              <Dialog.Close asChild>
+                <button
+                  className="absolute lg:block hidden right-3 top-3 rounded-md p-2 hover:bg-muted sm:right-4 sm:top-4"
+                  aria-label="Close"
+                >
+                  <X className="h-5 w-5" />
+                </button>
+              </Dialog.Close>
+              <Dialog.Title className="pr-8 text-center text-2xl font-bold sm:text-3xl">
                 Checkout
               </Dialog.Title>
 
@@ -236,10 +242,10 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
                 Complete your delivery information to place your order.
               </Dialog.Description>
 
-              <form className="mt-8 space-y-8" onSubmit={handleSubmit}>
+              <form className="mt-6 space-y-5 sm:mt-8 sm:space-y-8" onSubmit={handleSubmit}>
                 {/* Contact Information */}
-                <div className="space-y-4 rounded-xl border p-5">
-                  <div className="flex items-center justify-between">
+                <div className="space-y-4 rounded-xl border p-4 sm:p-5">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <h2 className="text-lg font-semibold">
                       Contact Information
                     </h2>
@@ -295,8 +301,8 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
                 </div>
 
                 {/* Delivery Address */}
-                <div className="space-y-4 rounded-xl border p-5">
-                  <div className="flex items-center justify-between">
+                <div className="space-y-4 rounded-xl border p-4 sm:p-5">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <h2 className="text-lg font-semibold">Delivery Address</h2>
 
                     <label className="flex items-center gap-2 text-sm">
@@ -406,7 +412,7 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
                 </div>
 
                 {/* Payment Information */}
-                <div className="space-y-4 rounded-xl border p-5">
+                <div className="space-y-4 rounded-xl border p-4 sm:p-5">
                   <h2 className="text-lg font-semibold">Payment Information</h2>
 
                   <div>
@@ -429,13 +435,13 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
             </div>
 
             {loading ? (
-              <div className="py-12 text-center">Loading products...</div>
+              <div className="py-8 text-center lg:w-95">Loading products...</div>
             ) : (
-              <div className="w-full border-l bg-muted/20 lg:w-95">
-                <div className="sticky top-0 p-6">
-                  <h2 className="mb-6 text-2xl font-bold">Order Summary</h2>
+              <div className="w-full border-t bg-muted/20 lg:w-95 lg:border-t-0 lg:border-l">
+                <div className="p-4 sm:p-6 lg:sticky lg:top-0">
+                  <h2 className="mb-4 text-xl font-bold sm:mb-6 sm:text-2xl">Order Summary</h2>
 
-                  <div className="max-h-105 space-y-4 overflow-y-auto pr-2">
+                  <div className="max-h-56 space-y-3 overflow-y-auto pr-1 sm:max-h-80 lg:max-h-105 lg:space-y-4 lg:pr-2">
                     {products.map((product) => (
                       <div
                         key={product._id}
@@ -456,7 +462,7 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
                             {product.category}
                           </p>
 
-                          <div className="mt-2 flex items-center gap-2">
+                      <div className="mt-2 flex flex-wrap items-center gap-2">
                             <span className="font-bold text-primary">
                               PKR {product.discountedPrice.toLocaleString()}
                             </span>
@@ -476,7 +482,7 @@ export default function BuyNowModal({ open, onOpenChange, selectedProductId, sel
                     ))}
                   </div>
 
-                  <div className="mt-6 rounded-xl border bg-background p-5">
+                  <div className="mt-4 rounded-xl border bg-background p-4 sm:mt-6 sm:p-5">
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-muted-foreground">

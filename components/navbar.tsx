@@ -123,15 +123,19 @@ export default function Navbar() {
       <div className="mx-auto px-1 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center sm:h-40 h-24">
           {/* Logo */}
-          <div onClick={() => scrollToSection('hero')} className="shrink-0">
-            <Image
-              src={Logo}
-              alt="AL Wali"
-              width={40}
-              height={40}
-              className="md:h-32 h-18 w-auto"
-            />
-          </div>
+          <div
+  onClick={() => scrollToSection("hero")}
+  className="shrink-0 cursor-pointer"
+>
+  <Image
+    src={Logo}
+    alt="AL Wali"
+    width={256}
+    height={256}
+    className="h-18 md:h-32 w-auto object-contain"
+    priority
+  />
+</div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center gap-8">

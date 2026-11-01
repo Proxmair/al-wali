@@ -109,7 +109,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                     alt={`${product.name}-${index}`}
                     fill
                     className="object-cover"
-                    priority={index === 0}
+                    sizes="(max-width: 639px) 100vw, (max-width: 1023px) 50vw, 25vw"
                   />
                 </div>
               </CarouselItem>

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tag, Loader2 } from "lucide-react";
+import { Tag } from "lucide-react";
 import BuyNowModal from "./modals/BuyNowModal";
 
 interface Deal {
@@ -23,37 +23,9 @@ interface Deal {
   dealDiscountPrice: number;
 }
 
-export default function Deals() {
-  const [deals, setDeals] = useState<Deal[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function Deals({ deals }: { deals: Deal[] }) {
   const [isBuyNowModalOpen, setIsBuyNowModalOpen] = useState(false);
   const [selectedDealId, setSelectedDealId] = useState<string>("");
-
-  const fetchDeals = async () => {
-    try {
-      setLoading(true);
-
-      const response = await fetch("/api/deals");
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(
-          data.message || "Failed to fetch deals"
-        );
-      }
-
-      setDeals(data.deals || []);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchDeals();
-  }, []);
 
    const handleBuyNowClick = (deal:Deal) => {
         setIsBuyNowModalOpen(true);
@@ -77,14 +49,7 @@ export default function Deals() {
           </p>
         </div>
 
-        {loading ? (
-          <div className="h-160 flex items-center justify-center">
-            <div className="flex items-center gap-2 text-muted-foreground">
-              <Loader2 className="w-5 h-5 animate-spin" />
-              Loading deals...
-            </div>
-          </div>
-        ) : deals.length === 0 ? (
+        {deals.length === 0 ? (
           <div className="h-160 flex items-center justify-center text-muted-foreground">
             No deals available.
           </div>

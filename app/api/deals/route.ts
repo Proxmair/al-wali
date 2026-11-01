@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidateTag } from "next/cache";
 import { put, del } from "@vercel/blob";
 
 import { connectDB } from "@/lib/mongodb";
@@ -125,6 +126,7 @@ export async function POST(req: Request) {
 
       images: imageUrls,
     });
+    revalidateTag("deals", "max");
 
     return NextResponse.json(
       {
@@ -278,6 +280,7 @@ export async function PUT(req: Request) {
     deal.images = imageUrls;
 
     await deal.save();
+    revalidateTag("deals", "max");
 
     return NextResponse.json(
       {
@@ -360,6 +363,7 @@ export async function DELETE(req: Request) {
     }
 
     await Deal.findByIdAndDelete(id);
+    revalidateTag("deals", "max");
 
     return NextResponse.json(
       {

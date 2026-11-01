@@ -3,50 +3,22 @@
 import { Button } from "@/components/ui/button";
 import { scrollToSection } from "@/lib/utils";
 import { RootState } from "@/store";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { AuthModal } from "./modals/AuthModal";
 
-export default function Hero() {
+export default function Hero({ misc }: { misc: { bannerText: string; bannerDesktopImage: string; bannerMobileImage: string } }) {
   const isLoggedIn = useSelector(
     (state: RootState) => state.user.isLoggedIn
   );
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const [misc, setMisc] = useState({
-    bannerText: "",
-    bannerDesktopImage: "",
-    bannerMobileImage: "",
-  });
-
   const handleAuthModalOpen = () => {
     if (!isLoggedIn) {
       setIsOpen(true);
     }
   };
-
-  useEffect(() => {
-    const fetchMisc = async () => {
-      try {
-        const response = await fetch("/api/misc");
-
-        const result = await response.json();
-
-        if (result.success) {
-          setMisc(result.misc);
-        }
-      } catch (error) {
-        console.error(
-          "Failed to fetch misc:",
-          error
-        );
-      }
-    };
-
-    fetchMisc();
-  }, []);
-
 
   return (
     <section

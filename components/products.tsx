@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 
 export interface Product {
@@ -13,34 +12,7 @@ export interface Product {
   rating: number;
 }
 
-export default function Products() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch("/api/products", {
-          cache: "no-store",
-        });
-
-        if (!res.ok) {
-          throw new Error("Failed to fetch products");
-        }
-
-        const data = await res.json();
-
-        // If your API returns { products: [...] }
-        setProducts(data.products ?? data);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+export default function Products({ products }: { products: Product[] }) {
 
   return (
     <section
@@ -59,9 +31,7 @@ export default function Products() {
           </p>
         </div>
 
-        {loading ? (
-          <div className="text-center py-12">Loading products...</div>
-        ) : products?.length === 0 ? (
+        {products.length === 0 ? (
           <div className="text-center py-12">No products found.</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

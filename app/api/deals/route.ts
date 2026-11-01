@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { put, del } from "@vercel/blob";
 
 import { connectDB } from "@/lib/mongodb";
@@ -61,6 +61,7 @@ export async function POST(req: Request) {
     );
 
     const rating = Number(formData.get("rating"));
+    const isActive = formData.get("isActive") === "true";
 
     const dealHeading = formData.get(
       "dealHeading"
@@ -119,6 +120,7 @@ export async function POST(req: Request) {
       price,
       discountedPrice,
       rating,
+      isActive,
 
       dealHeading,
       dealDescription,
@@ -127,6 +129,7 @@ export async function POST(req: Request) {
       images: imageUrls,
     });
     revalidateTag("deals", "max");
+    revalidatePath("/");
 
     return NextResponse.json(
       {
@@ -177,6 +180,7 @@ export async function PUT(req: Request) {
     );
 
     const rating = Number(formData.get("rating"));
+    const isActive = formData.get("isActive") === "true";
 
     const dealHeading = formData.get(
       "dealHeading"
@@ -271,6 +275,7 @@ export async function PUT(req: Request) {
     deal.price = price;
     deal.discountedPrice = discountedPrice;
     deal.rating = rating;
+    deal.isActive = isActive;
 
     deal.dealHeading = dealHeading;
     deal.dealDescription = dealDescription;
@@ -281,6 +286,7 @@ export async function PUT(req: Request) {
 
     await deal.save();
     revalidateTag("deals", "max");
+    revalidatePath("/");
 
     return NextResponse.json(
       {
@@ -364,6 +370,7 @@ export async function DELETE(req: Request) {
 
     await Deal.findByIdAndDelete(id);
     revalidateTag("deals", "max");
+    revalidatePath("/");
 
     return NextResponse.json(
       {

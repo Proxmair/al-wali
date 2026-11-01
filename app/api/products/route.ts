@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { put, del } from "@vercel/blob";
 
 import { connectDB } from "@/lib/mongodb";
@@ -100,6 +100,7 @@ export async function POST(req: Request) {
       images: imageUrls,
     });
     revalidateTag("products", "max");
+    revalidatePath("/");
 
     return NextResponse.json(
       {
@@ -206,6 +207,7 @@ export async function PUT(req: Request) {
 
     await product.save();
     revalidateTag("products", "max");
+    revalidatePath("/");
 
     return NextResponse.json(
       {
@@ -285,6 +287,7 @@ export async function DELETE(req: Request) {
 
     await Product.findByIdAndDelete(id);
     revalidateTag("products", "max");
+    revalidatePath("/");
 
     return NextResponse.json(
       {

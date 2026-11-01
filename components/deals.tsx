@@ -21,6 +21,7 @@ interface Deal {
   dealHeading: string;
   dealDescription: string;
   dealDiscountPrice: number;
+  isActive: boolean;
 }
 
 export default function Deals({ deals }: { deals: Deal[] }) {
@@ -36,7 +37,7 @@ export default function Deals({ deals }: { deals: Deal[] }) {
   return (
     <section
       id="deals"
-      className="py-16 md:py-24 px-4 bg-background mb-200 xl:mb-140"
+      className="py-16 md:py-24 px-4 bg-background mb-200 xl:mb-80"
     >
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
@@ -58,7 +59,7 @@ export default function Deals({ deals }: { deals: Deal[] }) {
            {deals.map((deal) => (
   <Card
     key={deal._id}
-    className="relative overflow-hidden h-100 border-0 shadow-lg hover:shadow-xl transition-shadow bg-center bg-cover bg-no-repeat mx-10 rounded-3xl"
+    className={`relative overflow-hidden h-100 border-0 shadow-lg transition-shadow bg-center bg-cover bg-no-repeat mx-10 rounded-3xl ${deal.isActive ? "hover:shadow-xl" : "cursor-not-allowed opacity-65"}`}
   >
     {/* Desktop Background */}
     <div
@@ -90,6 +91,7 @@ export default function Deals({ deals }: { deals: Deal[] }) {
       <Button
         className="w-full bg-white text-foreground hover:bg-white/90 font-semibold mt-auto"
         onClick={() => handleBuyNowClick(deal)}
+        disabled={!deal.isActive}
       >
         Buy Now
       </Button>

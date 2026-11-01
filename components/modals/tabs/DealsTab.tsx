@@ -18,6 +18,7 @@ interface Deal {
   dealHeading: string;
   dealDescription: string;
   dealDiscountPrice: number;
+  isActive: boolean;
 
   createdAt: string;
 }
@@ -143,6 +144,10 @@ const DealsTab = () => {
                     Rating
                   </th>
 
+                  <th className="px-4 py-3 text-left text-sm font-medium">
+                    Active
+                  </th>
+
                   <th className="px-4 py-3 text-center text-sm font-medium">
                     Actions
                   </th>
@@ -153,7 +158,7 @@ const DealsTab = () => {
                 {loading ? (
                   <tr>
                     <td
-                      colSpan={7}
+                      colSpan={8}
                       className="py-10 text-center"
                     >
                       <div className="flex items-center justify-center gap-2 text-muted-foreground">
@@ -165,7 +170,7 @@ const DealsTab = () => {
                 ) : deals.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={7}
+                      colSpan={8}
                       className="py-10 text-center text-muted-foreground"
                     >
                       No deals found.
@@ -199,6 +204,10 @@ const DealsTab = () => {
 
                       <td className="px-4 py-3">
                         {deal.rating}
+                      </td>
+
+                      <td className="px-4 py-3">
+                        {deal.isActive ? "Yes" : "No"}
                       </td>
 
                       <td className="px-4 py-3">

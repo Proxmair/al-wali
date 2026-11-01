@@ -34,6 +34,11 @@ const DealSchema = new mongoose.Schema(
       default: [],
     },
 
+    isActive: {
+      type: Boolean,
+      required: true,
+    },
+
     // Deal-specific fields
     dealHeading: {
       type: String,
@@ -57,5 +62,18 @@ const DealSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.models.Deal ||
-  mongoose.model("Deal", DealSchema);
+const Deal =
+  mongoose.models.Deal || mongoose.model("Deal", DealSchema);
+
+// During local development Mongoose reuses an already compiled model after
+// hot reloads. Add the field to that cached schema as well.
+if (!Deal.schema.path("isActive")) {
+  Deal.schema.add({
+    isActive: {
+      type: Boolean,
+      default: false,
+    },
+  });
+}
+
+export default Deal;

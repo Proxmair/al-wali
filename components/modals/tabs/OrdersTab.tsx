@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface Order {
   _id: string;
@@ -32,6 +33,7 @@ const OrdersTab = () => {
   const [updatingId, setUpdatingId] = useState<string | null>(
     null
   );
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const fetchOrders = async () => {
     try {
@@ -99,6 +101,34 @@ const OrdersTab = () => {
     }
   };
 
+  const handleDeleteOrder = async (id: string) => {
+    try {
+      setDeletingId(id);
+
+      const response = await fetch("/api/orders", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to delete order.");
+      }
+
+      setOrders((currentOrders) =>
+        currentOrders.filter((order) => order._id !== id)
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   return (
     <div className="space-y-6">
       <div>
@@ -139,6 +169,10 @@ const OrdersTab = () => {
                 <th className="px-4 py-3 text-left text-sm font-medium">
                   Status
                 </th>
+
+                <th className="px-4 py-3 text-center text-sm font-medium">
+                  Actions
+                </th>
               </tr>
             </thead>
 
@@ -146,7 +180,7 @@ const OrdersTab = () => {
               {loading ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="py-10 text-center"
                   >
                     <div className="flex items-center justify-center gap-2">
@@ -158,7 +192,7 @@ const OrdersTab = () => {
               ) : orders.length === 0 ? (
                 <tr>
                   <td
-                    colSpan={6}
+                    colSpan={7}
                     className="py-10 text-center text-muted-foreground"
                   >
                     No orders found.
@@ -218,6 +252,25 @@ const OrdersTab = () => {
                           )
                         )}
                       </select>
+                    </td>
+
+                    <td className="px-4 py-3">
+                      <div className="flex justify-center">
+                        <Button
+                          size="icon"
+                          variant="ghost"
+                          className="text-red-500 hover:text-red-600"
+                          disabled={deletingId === order._id}
+                          onClick={() => handleDeleteOrder(order._id)}
+                          aria-label={`Delete order ${order.orderNumber}`}
+                        >
+                          {deletingId === order._id ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : (
+                            <Trash2 className="h-4 w-4" />
+                          )}
+                        </Button>
+                      </div>
                     </td>
                   </tr>
                 ))

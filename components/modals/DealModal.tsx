@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
 
 interface Deal {
   _id: string;
@@ -22,6 +23,7 @@ interface Deal {
   dealHeading: string;
   dealDescription: string;
   dealDiscountPrice: number;
+  isActive: boolean;
 }
 
 interface DealModalProps {
@@ -49,6 +51,7 @@ const DealModal = ({
     dealHeading: "",
     dealDescription: "",
     dealDiscountPrice: "",
+    isActive: false,
   });
 
   const [images, setImages] = useState<File[]>([]);
@@ -69,6 +72,7 @@ const DealModal = ({
         dealDiscountPrice: String(
           selectedDeal.dealDiscountPrice
         ),
+        isActive: selectedDeal.isActive ?? false,
       });
     } else {
       setFormData({
@@ -81,6 +85,7 @@ const DealModal = ({
         dealHeading: "",
         dealDescription: "",
         dealDiscountPrice: "",
+        isActive: false,
       });
 
       setImages([]);
@@ -122,7 +127,7 @@ const DealModal = ({
 
       Object.entries(formData).forEach(
         ([key, value]) => {
-          data.append(key, value);
+          data.append(key, String(value));
         }
       );
 
@@ -141,7 +146,7 @@ const DealModal = ({
 
       if (!response.ok) {
         throw new Error(
-          result.message || "Something went wrong."
+          result.message || result.error || "Something went wrong."
         );
       }
 
@@ -155,6 +160,7 @@ const DealModal = ({
         dealHeading: "",
         dealDescription: "",
         dealDiscountPrice: "",
+        isActive: false,
       });
 
       setImages([]);
@@ -162,6 +168,11 @@ const DealModal = ({
       onOpenChange(false);
     } catch (error: any) {
       console.error(error.message);
+      toast({
+        title: isEditMode ? "Could not update deal" : "Could not add deal",
+        description: error.message || "Please try again.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -296,6 +307,21 @@ const DealModal = ({
                   />
                 </div>
               </div>
+
+              <label className="flex items-center gap-3 rounded-lg border p-4 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={formData.isActive}
+                  onChange={(event) =>
+                    setFormData((previous) => ({
+                      ...previous,
+                      isActive: event.target.checked,
+                    }))
+                  }
+                  className="h-4 w-4 accent-primary"
+                />
+                <span className="text-sm font-medium">Active deal</span>
+              </label>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">

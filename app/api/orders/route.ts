@@ -403,3 +403,65 @@ export async function PUT(req: Request) {
     );
   }
 }
+
+/**
+ * DELETE - Remove an order by id
+ */
+export async function DELETE(req: Request) {
+  try {
+    await connectDB();
+
+    const { id } = await req.json();
+
+    if (!id) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Order id is required.",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
+    const order = await Order.findById(id);
+
+    if (!order) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Order not found.",
+        },
+        {
+          status: 404,
+        }
+      );
+    }
+
+    await Order.findByIdAndDelete(id);
+
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Order deleted successfully.",
+      },
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error("Delete Order Error:", error);
+
+    return NextResponse.json(
+      {
+        success: false,
+        message:
+          error instanceof Error ? error.message : "Something went wrong.",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}

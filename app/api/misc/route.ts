@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { connectDB } from "@/lib/mongodb";
 import { put } from "@vercel/blob";
@@ -124,6 +124,7 @@ export async function PUT(req: Request) {
     }
 
     revalidateTag("misc", "max");
+    revalidatePath("/");
 
 
     return NextResponse.json(

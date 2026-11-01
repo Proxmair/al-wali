@@ -130,8 +130,8 @@ export default function Navbar() {
   <Image
     src={Logo}
     alt="AL Wali"
-    width={256}
-    height={256}
+    width={512}
+    height={512}
     className="h-18 md:h-32 w-auto object-contain"
     priority
   />

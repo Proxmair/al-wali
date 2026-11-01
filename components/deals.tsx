@@ -64,7 +64,7 @@ export default function Deals() {
   return (
     <section
       id="deals"
-      className="py-16 md:py-24 px-4 bg-background mb-550 xl:mb-140"
+      className="py-16 md:py-24 px-4 bg-background mb-200 xl:mb-140"
     >
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
@@ -89,11 +89,11 @@ export default function Deals() {
             No deals available.
           </div>
         ) : (
-          <div className="absolute left-0 w-[98vw] grid grid-cols-1 xl:grid-cols-2 gap-0.5 xl:h-160 h-550">
+<div className="absolute left-0 w-full grid grid-cols-1 xl:grid-cols-2 h-220 xl:h-160 ">
            {deals.map((deal) => (
   <Card
     key={deal._id}
-    className="relative overflow-hidden rounded-none border-0 shadow-lg hover:shadow-xl transition-shadow bg-center bg-cover bg-no-repeat"
+    className="relative overflow-hidden h-100 border-0 shadow-lg hover:shadow-xl transition-shadow bg-center bg-cover bg-no-repeat mx-10 rounded-3xl"
   >
     {/* Desktop Background */}
     <div
@@ -112,32 +112,18 @@ export default function Deals() {
     />
 
     {/* Badge */}
-    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur text-foreground px-4 py-2 rounded-full flex items-center gap-2 z-10">
+    <div className="absolute top-4 right-4 bg-primary/50 backdrop-blur text-foreground px-4 py-2 rounded-full flex items-center gap-2 z-10">
       <Tag className="w-4 h-4" />
 
       <span className="font-bold text-sm">
-        ${deal.dealDiscountPrice} OFF
+        {deal.dealDiscountPrice} PKR OFF
       </span>
     </div>
 
     {/* Content */}
     <div className="relative z-10 p-8 h-full flex flex-col justify-between">
-      <div className="bg-black/50 text-white p-4 rounded-lg w-fit">
-        <h3 className="text-4xl mb-4 text-balance">
-          {deal.dealHeading}
-        </h3>
-
-        <p className="text-base leading-relaxed opacity-90">
-          {deal.dealDescription}
-        </p>
-
-        <p className="mt-3 text-sm">
-          {deal.name}
-        </p>
-      </div>
-
       <Button
-        className="mt-6 w-full bg-white text-foreground hover:bg-white/90 font-semibold"
+        className="w-full bg-white text-foreground hover:bg-white/90 font-semibold mt-auto"
         onClick={() => handleBuyNowClick(deal)}
       >
         Buy Now

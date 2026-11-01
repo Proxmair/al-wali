@@ -9,8 +9,8 @@ import WhatsAppButton from '@/components/WhatsAppButton'
 import Script from 'next/script'
 import MetaPixel from '@/components/MetaPixel'
 export const metadata: Metadata = {
-  title: 'AL Wali - Premium Perfumes | Andaz Apka Mehak Humari',
-  description: 'Discover exquisite fragrances at AL Wali. Premium quality perfumes with special deals and authentic products.',
+  title: 'AL Wali - Premium Attar | Andaz Apka Mehak Humari',
+  description: 'Discover exquisite fragrances at AL Wali. Premium quality attar with special deals and authentic products.',
   generator: 'v0.app',
   icons: {
     icon: [

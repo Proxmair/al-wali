@@ -51,7 +51,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative h-250 overflow-hidden 
+      className="relative md:h-250 h-140  overflow-hidden 
       bg-cover bg-no-repeat bg-center flex items-center justify-center"
       style={{
         backgroundImage: `url(${
@@ -63,13 +63,13 @@ export default function Hero() {
       }}
     >
       {/* Content */}
-      <div className="relative z-10 xl:left-[20vw] bottom-57.5 flex flex-col justify-center xl:items-start px-4 max-w-3xl">
+      <div className="relative z-10 xl:left-[20vw] md:bottom-57.5 bottom-20 flex flex-col justify-center xl:items-start px-4 max-w-3xl">
         <h1 className="text-4xl xs:text-5xl sm:text-6xl xl:text-8xl font-bold text-orange-900 mb-4 text-balance text-center xl:text-start">
           Andaz Apka Mehak Hamari
         </h1>
 
         <p className="text-md xl:text-lg text-foreground/80 mb-8 text-balance font-bold text-center xl:text-start">
-          Discover the essence of luxury with AL Wali&apos;s premium attars collection
+          Discover the Essence of Luxury with AL Wali&apos;s Premium Attar Collection.
         </p>
 
         {misc.bannerText.trim().length > 0 && <p className="text-md xl:text-lg text-white mb-8 text-balance bg-amber-900 p-3 xl:p-4 mx-auto rounded-2xl">
@@ -79,7 +79,7 @@ export default function Hero() {
         <div className="w-40 flex sm:flex-row gap-4 justify-center mx-auto">
           <Button
             size={"default"}
-            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold md:mt-0 -mt-5"
             onClick={() => {
               scrollToSection("collection");
             }}

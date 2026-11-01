@@ -32,7 +32,7 @@ const faqs: FAQItem[] = [
     id: 4,
     question: "Are your attars Alcohol free?",
     answer:
-      "Al-Wali attars are alcohol free. The perfumes contain alcohol.",
+      "Al-Wali attars are alcohol free.",
   },
   {
     id: 5,
